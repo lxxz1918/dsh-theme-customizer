@@ -31,8 +31,7 @@ if (all.length === 0) return null;
 if (all.length === 0 && window.__TCZ_HIDE_OFFICIAL_CORDIS) return null; /* [dsh-theme-customizer] Cordis按钮常驻补丁 */
 ```
 
-⚠️ 千万不要加 `!`！历史上写反过一次（`!window.__TCZ_HIDE_OFFICIAL_CORDIS`），
-导致 flag=false（常驻）时反而隐藏。语义：
+⚠️ 千万不要加 `!`！，会导致 flag=false（常驻）时反而隐藏。语义：
 - `window.__TCZ_HIDE_OFFICIAL_CORDIS = false` → 常驻（无插件也显示）
 - `window.__TCZ_HIDE_OFFICIAL_CORDIS = true` → 官方原逻辑（无插件隐藏）
 
