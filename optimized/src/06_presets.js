@@ -151,8 +151,8 @@
           for (const key of ['bubble', 'inline', 'code', 'scrollbar', 'chatScroll', 'todoCollapsed', 'todoExpanded', 'addBtn', 'cmdMenu', 'toBottom', 'sliderColor', 'sliderTrackColor', 'scrollColor']) {
             convBgs = { ...convBgs, [key]: (typeof cb[key] === 'string' && cb[key]) ? cb[key] : null }
           }
-          // 透明度类键（v0.9.14/15）：数值 0-1，缺失/非法回 0（不残留上一预设）
-          for (const key of ['addBtnOpacity', 'cmdMenuOpacity', 'sliderOpacity', 'sliderTrackOpacity', 'scrollOpacity']) {
+          // 透明度类键（v0.9.14/15；v1.0.3 加对话区 8 项）：数值 0-1，缺失/非法回 0（不残留上一预设）
+          for (const key of ['addBtnOpacity', 'cmdMenuOpacity', 'sliderOpacity', 'sliderTrackOpacity', 'scrollOpacity', 'bubbleOpacity', 'inlineOpacity', 'codeOpacity', 'scrollbarOpacity', 'chatScrollOpacity', 'todoCollapsedOpacity', 'todoExpandedOpacity', 'toBottomOpacity']) {
             const v = cb[key]
             convBgs = { ...convBgs, [key]: (typeof v === 'number' && v >= 0 && v <= 1) ? v : 0 }
           }

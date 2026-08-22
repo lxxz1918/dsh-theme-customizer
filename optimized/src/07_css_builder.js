@@ -301,30 +301,55 @@
         // column 内部**所有**滚动条（代码块 terminal/read/search/diff、JsonBlock、IO 卡片 IN/OUT 等，
         // 不管哈希类名）都跟随「代码块滚动条」。对话区滚动容器是 column 的**祖先**（不继承 column 变量）→
         // 不受影响，仍由「对话区滚动条」直接 thumb 控制。此前逐个补 _block_/md-code-block/pre/_body_ 仍有漏网（IO 卡片）
+        // v1.0.3：对话区各键透明度（数值大=透明 → alpha = 1-opacity）——设色时合成 rgba；滚动条/任务栏/一键到底未设色时无官方色可淡，跳过
+        const sbA = Math.max(0, Math.min(1, 1 - (convBgs.scrollbarOpacity == null ? 0 : convBgs.scrollbarOpacity)))
         if (convBgs.scrollbar) {
-          cssParts.push('[data-chat-flow] { --dsh-scrollbar-thumb: ' + convBgs.scrollbar + ' !important; --dsh-scrollbar-thumb-hover: ' + convBgs.scrollbar + ' !important; }')
+          const c = sbA >= 1 ? convBgs.scrollbar : 'rgba(' + parseRgb(convBgs.scrollbar).join(',') + ',' + sbA + ')'
+          cssParts.push('[data-chat-flow] { --dsh-scrollbar-thumb: ' + c + ' !important; --dsh-scrollbar-thumb-hover: ' + c + ' !important; }')
         }
         // 对话区滚动条（含 data-chat-flow 的 _scroll 容器）：v0.9.19 改**直接作用于自身 thumb**（不设变量）——
         // 变量会被内部滚动条（JsonBlock 裸 pre 等）继承 → 代码块竖滚动条错误跟随对话区颜色（用户反馈"竖的绑错"）。
         // ⚠️ v0.9.19 再修：不用 Firefox scrollbar-color——scrollbar-color 是**继承属性**，会继续污染内部代码块滚动条；
         // 只保留 Webkit ::-webkit-scrollbar-thumb 直接样式（只控制对话区最外层滚动条，即最右边的滚动条）
+        const csA = Math.max(0, Math.min(1, 1 - (convBgs.chatScrollOpacity == null ? 0 : convBgs.chatScrollOpacity)))
         if (convBgs.chatScroll) {
-          cssParts.push('[class*="_scroll"]:has([data-chat-flow])::-webkit-scrollbar-thumb { background: ' + convBgs.chatScroll + ' !important; }')
-          cssParts.push('[class*="_scroll"]:has([data-chat-flow])::-webkit-scrollbar-thumb:hover { background: ' + convBgs.chatScroll + ' !important; }')
+          const c = csA >= 1 ? convBgs.chatScroll : 'rgba(' + parseRgb(convBgs.chatScroll).join(',') + ',' + csA + ')'
+          cssParts.push('[class*="_scroll"]:has([data-chat-flow])::-webkit-scrollbar-thumb { background: ' + c + ' !important; }')
+          cssParts.push('[class*="_scroll"]:has([data-chat-flow])::-webkit-scrollbar-thumb:hover { background: ' + c + ' !important; }')
         }
         // 任务栏：展开滑入动画（官方渲染 list 时播放）+ 背景渐变（0.2s 快速跟手，与状态切换基本同步）；
         // 收起 = 官方行为（list 瞬间移除，不做列表动画）
         cssParts.push('@keyframes tcz-todo-expand { from { opacity: 0; transform: scaleY(0.6); } to { opacity: 1; transform: scaleY(1); } }')
         cssParts.push('[data-testid="todo-panel"] [class*="_list"] { animation: tcz-todo-expand 0.4s ease-in-out !important; transform-origin: top !important; }')
-        // 收起 = 官方行为（list 瞬间移除，不做列表动画）；背景色渐变（设色时）
+        const tdA = Math.max(0, Math.min(1, 1 - (convBgs.todoCollapsedOpacity == null ? 0 : convBgs.todoCollapsedOpacity)))
+        const teA = Math.max(0, Math.min(1, 1 - (convBgs.todoExpandedOpacity == null ? 0 : convBgs.todoExpandedOpacity)))
         if (convBgs.todoCollapsed || convBgs.todoExpanded) {
           cssParts.push('[data-testid="todo-panel"] { transition: background-color 0.2s ease-out !important; }')
         }
         if (convBgs.todoCollapsed) {
-          cssParts.push('[data-testid="todo-panel"]:has([aria-expanded="false"]) { background-color: ' + convBgs.todoCollapsed + ' !important; }')
+          const c = tdA >= 1 ? convBgs.todoCollapsed : 'rgba(' + parseRgb(convBgs.todoCollapsed).join(',') + ',' + tdA + ')'
+          cssParts.push('[data-testid="todo-panel"]:has([aria-expanded="false"]) { background-color: ' + c + ' !important; }')
         }
         if (convBgs.todoExpanded) {
-          cssParts.push('[data-testid="todo-panel"]:has([aria-expanded="true"]) { background-color: ' + convBgs.todoExpanded + ' !important; }')
+          const c = teA >= 1 ? convBgs.todoExpanded : 'rgba(' + parseRgb(convBgs.todoExpanded).join(',') + ',' + teA + ')'
+          cssParts.push('[data-testid="todo-panel"]:has([aria-expanded="true"]) { background-color: ' + c + ' !important; }')
+        }
+        // ── bubble/inline/code 未设色但透明度>0：元素级 color-mix 淡化官方 token（不覆盖 token——覆盖值里 var 自身会循环失效）──
+        // 选择器：气泡 = 用户消息 _bubble；行内代码 = 非 pre 的 code；代码块 = _block_/md-code-block（banner 单列略过）
+        const bOp = convBgs.bubbleOpacity == null ? 0 : convBgs.bubbleOpacity
+        if (!convBgs.bubble && bOp > 0) {
+          const pct = Math.round(Math.max(0, Math.min(1, 1 - bOp)) * 100) + '%'
+          cssParts.push('[data-chat-flow] [class*="_bubble"] { background-color: color-mix(in srgb, var(--dsw-specific-bubble) ' + pct + ', transparent) !important; }')
+        }
+        const iOp = convBgs.inlineOpacity == null ? 0 : convBgs.inlineOpacity
+        if (!convBgs.inline && iOp > 0) {
+          const pct = Math.round(Math.max(0, Math.min(1, 1 - iOp)) * 100) + '%'
+          cssParts.push('[data-chat-flow] :not(pre) > code { background-color: color-mix(in srgb, var(--dsw-alias-markdown-inline-code) ' + pct + ', transparent) !important; }')
+        }
+        const cOp = convBgs.codeOpacity == null ? 0 : convBgs.codeOpacity
+        if (!convBgs.code && cOp > 0) {
+          const pct = Math.round(Math.max(0, Math.min(1, 1 - cOp)) * 100) + '%'
+          cssParts.push('[data-chat-flow] [class*="_block_"], [data-chat-flow] [class*="md-code-block"] { background-color: color-mix(in srgb, var(--dsw-alias-markdown-code-block) ' + pct + ', transparent) !important; }')
         }
         // 输入框「+」命令按钮背景（官方 --dsw-specific-selector；hover 官方 --dsw-alias-interactive-bg-hover-solid → 一并覆盖防悬停跳回官方色）
         // v0.9.14：支持透明度——自定义颜色用 rgba(1-opacity)；官方默认色（addBtn null）时透明度作用于官方 token（color-mix）
@@ -352,8 +377,11 @@
           cssParts.push('[class*="_3e4SsG_menu"] { background-color: color-mix(in srgb, var(--dsw-specific-menu) ' + pct + ', transparent) !important; }')
         }
         // 对话区「V」一键到底部按钮背景（v0.9.15）：官方 token --dsw-alias-button-floating-fill 被布局手柄共用 → 精确选择器覆盖
+        // v1.0.3：支持透明度（设色时 rgba 合成）
+        const tbA = Math.max(0, Math.min(1, 1 - (convBgs.toBottomOpacity == null ? 0 : convBgs.toBottomOpacity)))
         if (convBgs.toBottom) {
-          cssParts.push('[class*="Md3f7G_toBottom"] { background-color: ' + convBgs.toBottom + ' !important; }')
+          const c = tbA >= 1 ? convBgs.toBottom : 'rgba(' + parseRgb(convBgs.toBottom).join(',') + ',' + tbA + ')'
+          cssParts.push('[class*="Md3f7G_toBottom"] { background-color: ' + c + ' !important; }')
         }
         // 主题设置插件滑条（v0.9.15）：range 分左右两半——左半边（已填充）+ 右半边（未填充轨道）+ 圆点，各自独立颜色/透明度。
         // 仅作用于 data-thmcz-range（插件自己的 range，不碰官方滑条）。
@@ -362,13 +390,19 @@
         // 透明度：数值大=透明 → alpha = 1-opacity（rgba）
         const sliderFill = convBgs.sliderColor
         const sliderTrack = convBgs.sliderTrackColor
-        if (sliderFill || sliderTrack) {
-          const fillA = Math.max(0, Math.min(1, 1 - (convBgs.sliderOpacity == null ? 0 : convBgs.sliderOpacity)))
-          const trackA = Math.max(0, Math.min(1, 1 - (convBgs.sliderTrackOpacity == null ? 0 : convBgs.sliderTrackOpacity)))
-          const fillRgb = sliderFill ? parseRgb(sliderFill) : null
-          const trackRgb = sliderTrack ? parseRgb(sliderTrack) : null
-          const fBg = sliderFill ? (fillA >= 1 ? sliderFill : 'rgba(' + fillRgb[0] + ',' + fillRgb[1] + ',' + fillRgb[2] + ',' + fillA + ')') : 'transparent'
-          const tBg = sliderTrack ? (trackA >= 1 ? sliderTrack : 'rgba(' + trackRgb[0] + ',' + trackRgb[1] + ',' + trackRgb[2] + ',' + trackA + ')') : 'rgba(128,128,128,0.3)'
+        // v1.0.3：未设色也可调透明度（用户要滑条/轨道透明度默认显示）——未设色用默认初始色参与淡化
+        // （填充 = Chrome 默认 accent 蓝 #0060df、轨道 = rgba(128,128,128,0.3) 白底合成 ≈ #d9d9d9，与色块默认显示一致）
+        const fillOp = convBgs.sliderOpacity == null ? 0 : convBgs.sliderOpacity
+        const trackOp = convBgs.sliderTrackOpacity == null ? 0 : convBgs.sliderTrackOpacity
+        if (sliderFill || sliderTrack || fillOp > 0 || trackOp > 0) {
+          const fillA = Math.max(0, Math.min(1, 1 - fillOp))
+          const trackA = Math.max(0, Math.min(1, 1 - trackOp))
+          const fillBase = sliderFill || '#0060df'
+          const trackBase = sliderTrack || '#d9d9d9'
+          const fillRgb = parseRgb(fillBase)
+          const trackRgb = parseRgb(trackBase)
+          const fBg = fillA >= 1 ? fillBase : 'rgba(' + fillRgb[0] + ',' + fillRgb[1] + ',' + fillRgb[2] + ',' + fillA + ')'
+          const tBg = trackA >= 1 ? trackBase : 'rgba(' + trackRgb[0] + ',' + trackRgb[1] + ',' + trackRgb[2] + ',' + trackA + ')'
           cssParts.push('[data-thmcz-range] { -webkit-appearance: none !important; appearance: none !important; background: transparent !important; --tcz-range-fill: ' + fBg + '; --tcz-range-track: ' + tBg + '; }')
           cssParts.push('[data-thmcz-range]::-webkit-slider-runnable-track { -webkit-appearance: none !important; appearance: none !important; height: 6px !important; border-radius: 3px !important; background: linear-gradient(to right, var(--tcz-range-fill) var(--tcz-range-val, 0%), var(--tcz-range-track) var(--tcz-range-val, 0%)) !important; }')
           cssParts.push('[data-thmcz-range]::-webkit-slider-thumb { -webkit-appearance: none !important; appearance: none !important; width: 14px !important; height: 14px !important; border-radius: 50% !important; margin-top: -4px !important; background-color: ' + fBg + ' !important; border: none !important; }')
@@ -380,10 +414,13 @@
         // 浮窗界面滚动条（v0.9.15 修正）：用户要的是浮窗（GlobalFloat）内容区滚动条 [data-thmcz-float-scroll]，
         // 不是设置面板的（此前误做成 VOzbGW_options，用户反馈"没作用"——因为看的是浮窗滚动条）。
         // 变量作用于滚动容器（thumb var() 解析基准），滚动条宽度走 body 全局 8px
-        if (convBgs.scrollColor) {
-          const ca = Math.max(0, Math.min(1, 1 - (convBgs.scrollOpacity == null ? 0 : convBgs.scrollOpacity)))
-          const crgb = parseRgb(convBgs.scrollColor)
-          const cBg = ca >= 1 ? convBgs.scrollColor : 'rgba(' + crgb[0] + ',' + crgb[1] + ',' + crgb[2] + ',' + ca + ')'
+        // v1.0.3：未设色也可调透明度（默认色 = 官方 scrollbar-bg-l1 → neutral-200 #e5e5e5）
+        const scOp = convBgs.scrollOpacity == null ? 0 : convBgs.scrollOpacity
+        if (convBgs.scrollColor || scOp > 0) {
+          const ca = Math.max(0, Math.min(1, 1 - scOp))
+          const base = convBgs.scrollColor || '#e5e5e5'
+          const crgb = parseRgb(base)
+          const cBg = ca >= 1 ? base : 'rgba(' + crgb[0] + ',' + crgb[1] + ',' + crgb[2] + ',' + ca + ')'
           cssParts.push('[data-thmcz-float-scroll] { --dsh-scrollbar-thumb: ' + cBg + ' !important; --dsh-scrollbar-thumb-hover: ' + cBg + ' !important; }')
         }
         return cssParts.join(' ')
@@ -407,12 +444,17 @@
           }
         }
         // 对话区背景（2026-08-21）：我的发言气泡 + 行内代码 + 代码块/编辑卡片/脚本终端（官方 token 覆盖，亮暗统一用户色）
-        if (convBgs.bubble) tokens['--dsw-specific-bubble'] = { light: convBgs.bubble, dark: convBgs.bubble }
-        if (convBgs.inline) tokens['--dsw-alias-markdown-inline-code'] = { light: convBgs.inline, dark: convBgs.inline }
+        // v1.0.3 透明度：设色时 rgba(色, 1-opacity) 合成；未设色时透明度走 buildConvCss 元素级 color-mix（token 自引用会循环，勿在覆盖值里 var 自身）
+        const bubbleA = Math.max(0, Math.min(1, 1 - (convBgs.bubbleOpacity == null ? 0 : convBgs.bubbleOpacity)))
+        if (convBgs.bubble) tokens['--dsw-specific-bubble'] = { light: bubbleA >= 1 ? convBgs.bubble : 'rgba(' + parseRgb(convBgs.bubble).join(',') + ',' + bubbleA + ')', dark: bubbleA >= 1 ? convBgs.bubble : 'rgba(' + parseRgb(convBgs.bubble).join(',') + ',' + bubbleA + ')' }
+        const inlineA = Math.max(0, Math.min(1, 1 - (convBgs.inlineOpacity == null ? 0 : convBgs.inlineOpacity)))
+        if (convBgs.inline) tokens['--dsw-alias-markdown-inline-code'] = { light: inlineA >= 1 ? convBgs.inline : 'rgba(' + parseRgb(convBgs.inline).join(',') + ',' + inlineA + ')', dark: inlineA >= 1 ? convBgs.inline : 'rgba(' + parseRgb(convBgs.inline).join(',') + ',' + inlineA + ')' }
+        const codeA = Math.max(0, Math.min(1, 1 - (convBgs.codeOpacity == null ? 0 : convBgs.codeOpacity)))
         if (convBgs.code) {
-          tokens['--dsw-alias-markdown-code-block'] = { light: convBgs.code, dark: convBgs.code }
+          const cv = codeA >= 1 ? convBgs.code : 'rgba(' + parseRgb(convBgs.code).join(',') + ',' + codeA + ')'
+          tokens['--dsw-alias-markdown-code-block'] = { light: cv, dark: cv }
           // banner（read/search 卡片标题栏）同色，补全"背景不完全"
-          tokens['--dsw-alias-markdown-code-block-banner'] = { light: convBgs.code, dark: convBgs.code }
+          tokens['--dsw-alias-markdown-code-block-banner'] = { light: cv, dark: cv }
         }
         return tokens
       }
@@ -434,6 +476,21 @@
       //   · 非 token 键（scrollbar/chatScroll/todo*/addBtn/cmdMenu/toBottom/slider*/scroll*）：只刷 conv style 标签（'convStyle'）；
       //   · token 键（bubble/inline/code）：style + refreshConvTokens（'conv'）。
       //   此前拖动滚动条/滑条颜色每帧都跑 buildThemeTokens+overrideTokens（无用开销）→ 卡顿
+      // ⚠️ v1.0.3 修复：Chromium 对 ::-webkit-scrollbar-thumb 样式变化**不即时重绘**（style 标签已更新但画面不变，
+      // 松手触发 React 重渲染才刷新——用户反馈"对话区滚动条颜色/透明度调整不会实时变化"）。
+      // 强制重绘滚动容器：transform 微调（无布局跳动、不改变视觉）；仅 convStyle/conv 分支调用（拖动滚动条/滑条相关）
+      function repaintScrollbars() {
+        try {
+          for (const sel of ['[class*="_scroll"]:has([data-chat-flow])', '[data-chat-flow]']) {
+            const el = document.querySelector(sel)
+            if (!el) continue
+            el.style.transform = 'translateZ(0)'
+            void el.offsetHeight // 强制 reflow，刷新合成层 → 重绘 thumb
+            el.style.transform = ''
+          }
+        } catch (e) { /* 忽略 */ }
+      }
+
       function manualCssRefresh(id) {
         try {
           const setStyle = (key, css) => {
@@ -453,6 +510,7 @@
             setStyle('float', buildFloatCss())
             setStyle('conv', buildConvCss())
             refreshConvTokens()
+            repaintScrollbars()
             return
           }
           if (id === 'app') setStyle('app', buildAppCss())
@@ -464,8 +522,8 @@
           else if (id === 'ns') setStyle('ns', buildNewSessionCss())
           else if (id === 'cordis') setStyle('cordis', buildCordisCss())
           else if (id === 'float') setStyle('float', buildFloatCss())
-          else if (id === 'convStyle') setStyle('conv', buildConvCss())
-          else if (id === 'conv') { setStyle('conv', buildConvCss()); refreshConvTokens() }
+          else if (id === 'convStyle') { setStyle('conv', buildConvCss()); repaintScrollbars() }
+          else if (id === 'conv') { setStyle('conv', buildConvCss()); refreshConvTokens(); repaintScrollbars() }
         } catch (e) { /* 忽略 */ }
       }
 
@@ -661,7 +719,7 @@
         const liftCss = React.useMemo(() => buildLiftCss(), [areas.sidebar.mode, areas.sidebar.image, sidebarInfo])
         const cordisCss = React.useMemo(() => buildCordisCss(), [areas.cordis, baseBg])
         const floatCss = React.useMemo(() => buildFloatCss(), [floatVisible, areas.float])
-        const convCss = React.useMemo(() => buildConvCss(), [convBgs.scrollbar, convBgs.chatScroll, convBgs.todoCollapsed, convBgs.todoExpanded, convBgs.addBtn, convBgs.cmdMenu, convBgs.addBtnOpacity, convBgs.cmdMenuOpacity, convBgs.toBottom, convBgs.sliderColor, convBgs.sliderOpacity, convBgs.sliderTrackColor, convBgs.sliderTrackOpacity, convBgs.scrollColor, convBgs.scrollOpacity])
+        const convCss = React.useMemo(() => buildConvCss(), [convBgs.scrollbar, convBgs.chatScroll, convBgs.todoCollapsed, convBgs.todoExpanded, convBgs.addBtn, convBgs.cmdMenu, convBgs.addBtnOpacity, convBgs.cmdMenuOpacity, convBgs.toBottom, convBgs.sliderColor, convBgs.sliderOpacity, convBgs.sliderTrackColor, convBgs.sliderTrackOpacity, convBgs.scrollColor, convBgs.scrollOpacity, convBgs.scrollbarOpacity, convBgs.chatScrollOpacity, convBgs.todoCollapsedOpacity, convBgs.todoExpandedOpacity, convBgs.toBottomOpacity, convBgs.bubbleOpacity, convBgs.inlineOpacity, convBgs.codeOpacity])
 
         // 各模块独立 <style> 标签：规则相对顺序与原单标签一致（img → app → composer → details → sidebar → ns → lift → cordis → float → conv）
         return React.createElement(React.Fragment, null,

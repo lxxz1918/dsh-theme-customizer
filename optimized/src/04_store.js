@@ -91,15 +91,16 @@
       //   直更 style 标签（零 React 渲染）——此前每帧 notify 全量重渲染，同一滑条连续拖动越拖越卡。
       // ⚠️ v0.9.15 优化：bubble/inline/code（token 键）走 'conv'（style+token）；其余键（滚动条/滑条/命令/V等）
       //   只走 'convStyle'（纯 style 标签，不刷 token）——此前拖动滚动条/滑条颜色每帧跑 buildThemeTokens+overrideTokens → 卡顿
-      const CONV_TOKEN_KEYS = { bubble: true, inline: true, code: true }
+      // v1.0.3：bubble 系透明度键（bubbleOpacity/inlineOpacity/codeOpacity）走 token 覆盖（buildThemeTokens 合成 rgba）→ 'conv'
+      const CONV_TOKEN_KEYS = { bubble: true, inline: true, code: true, bubbleOpacity: true, inlineOpacity: true, codeOpacity: true }
       function setConvBg(key, v) {
         convBgs = { ...convBgs, [key]: v }
         if (Date.now() < saveSuppressUntil) manualCssRefresh(CONV_TOKEN_KEYS[key] ? 'conv' : 'convStyle')
         else { notify(); saveNow() }
       }
-      // 全部恢复官方默认（对话区 8 项全 null，仿字体颜色 resetAllColors；v0.9.15 含 V 按钮）
+      // 全部恢复官方默认（对话区 8 项全 null + 透明度归零，仿字体颜色 resetAllColors；v1.0.3 含透明度）
       function resetAllConvBgs() {
-        convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, toBottom: null }
+        convBgs = { ...convBgs, bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, toBottom: null, bubbleOpacity: 0, inlineOpacity: 0, codeOpacity: 0, scrollbarOpacity: 0, chatScrollOpacity: 0, todoCollapsedOpacity: 0, todoExpandedOpacity: 0, toBottomOpacity: 0 }
         notify(); saveNow()
       }
       // 命令子板块全部恢复官方默认（仅 addBtn/cmdMenu + 透明度两项，输入区卡片内；v0.9.14 含透明度归零）
@@ -132,7 +133,7 @@
         brandHarness = { color: null, opacity: 0 }
         borders = { main: { color: null, opacity: 0 }, cordis: { color: null, opacity: 0 }, composer: { color: null, opacity: 0 }, details: { color: null, opacity: 0 }, float: { color: null, opacity: 0 }, newSession: { color: null, opacity: 0 } }
         colors = { main: null, process: null, aux: null, faded: null, accent: null }
-        convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0 }
+        convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0, bubbleOpacity: 0, inlineOpacity: 0, codeOpacity: 0, scrollbarOpacity: 0, chatScrollOpacity: 0, todoCollapsedOpacity: 0, todoExpandedOpacity: 0, toBottomOpacity: 0 }
         showOpacityHint = true
         composerStatsExpanded = false
         detailsPos = null
