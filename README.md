@@ -5,6 +5,8 @@
 [![topic: dsh-plugin](https://img.shields.io/badge/topic-dsh--plugin-0969da?style=flat-square)](https://github.com/topics/dsh-plugin)
 [![stars](https://img.shields.io/github/stars/lxxz1918/dsh-theme-customizer?style=flat-square)](https://github.com/lxxz1918/dsh-theme-customizer/stargazers)
 
+**中文** | [English](README.en.md)
+
 > DeepSeek Harness（DSH）Web 界面自定义主题插件：背景、文字、框线、细节全部可视化设置，刷新/重启不丢。
 > 配置存 localStorage，预设可导出 `.tczp` 文件（含图片）分享到任意电脑。
 

@@ -5,6 +5,8 @@
 [![topic: dsh-plugin](https://img.shields.io/badge/topic-dsh--plugin-0969da?style=flat-square)](https://github.com/topics/dsh-plugin)
 [![stars](https://img.shields.io/github/stars/lxxz1918/dsh-theme-customizer?style=flat-square)](https://github.com/lxxz1918/dsh-theme-customizer/stargazers)
 
+**English** | [中文](README.md)
+
 > A theme customizer plugin for the DeepSeek Harness (DSH) web UI. Backgrounds, text colors, borders and details — all adjustable visually, persisted across restarts.
 > Config is stored in localStorage; presets can be exported as `.tczp` files (images included) and shared with any machine.
 
