@@ -91,6 +91,10 @@ Presets panel → "📥 Import preset" and pick a `.tczp` file to restore a whol
 dsh plugin --profile web remove dsh-theme-customizer
 ```
 
+## AI Usage
+
+This project is designed and reviewed by [lxxz1918](https://github.com/lxxz1918); the code is written with the assistance of an AI assistant (DeepSeek). All feature requirements, UI copy and final results are confirmed by the author.
+
 ## License
 
 [MIT](LICENSE)

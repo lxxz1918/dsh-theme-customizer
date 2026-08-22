@@ -91,6 +91,10 @@ dsh plugin --profile web add <本仓库路径>
 dsh plugin --profile web remove dsh-theme-customizer
 ```
 
+## AI 使用说明
+
+本项目由 [lxxz1918](https://github.com/lxxz1918) 主导设计与验收，代码在 AI 助手（DeepSeek）辅助下编写。所有功能需求、界面文案与最终效果均由作者本人确认。
+
 ## License
 
 [MIT](LICENSE)
