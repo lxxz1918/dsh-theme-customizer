@@ -10,6 +10,13 @@
 > DeepSeek Harness（DSH）Web 界面自定义主题插件：背景、文字、框线、细节全部可视化设置，刷新/重启不丢。
 > 配置存 localStorage，预设可导出 `.tczp` 文件（含图片）分享到任意电脑。
 
+## 界面预览
+
+| | 主界面效果 | 设置面板 |
+|:---:|:---:|:---:|
+| **示例预设 0** | ![预设0主界面](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/theme-effect.png) | ![预设0面板](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/settings-panel.png) |
+| **示例预设 1** | ![预设1主界面](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-main.png) | ![预设1面板](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-panel.png) |
+
 ## 功能一览
 
 - **界面板块（7 区域背景）**：主界面 / 侧边栏 / 对话区 / 输入区 / 设置界面 / 浮窗面板 / Cordis 插件界面

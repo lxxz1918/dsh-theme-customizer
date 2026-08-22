@@ -10,6 +10,13 @@
 > A theme customizer plugin for the DeepSeek Harness (DSH) web UI. Backgrounds, text colors, borders and details — all adjustable visually, persisted across restarts.
 > Config is stored in localStorage; presets can be exported as `.tczp` files (images included) and shared with any machine.
 
+## Screenshots
+
+| | Main UI | Settings panel |
+|:---:|:---:|:---:|
+| **Preset 0** | ![Preset 0 main UI](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/theme-effect.png) | ![Preset 0 panel](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/settings-panel.png) |
+| **Preset 1** | ![Preset 1 main UI](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-main.png) | ![Preset 1 panel](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-panel.png) |
+
 ## Features
 
 - **Interface module (7 background areas)**: Main / Sidebar / Conversation / Composer / Settings panel / Floating panel / Cordis panel
