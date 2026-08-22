@@ -83,13 +83,19 @@ dsh plugin --profile web add <本仓库路径>
 
 ## 预设文件（.tczp）
 
-预设面板 → 「📥 导入预设」选择 `.tczp` 文件即可恢复整套配置（含图片，无需原图）。导出同样在预设面板逐条「📤 导出」。
+预设面板 → 「导入预设」选择 `.tczp` 文件即可恢复整套配置（含图片，无需原图）。导出同样在预设面板逐条「导出」。
 
 ## 卸载
 
 ```bash
 dsh plugin --profile web remove dsh-theme-customizer
 ```
+
+## 联系与反馈
+
+- 使用问题 / 功能建议 → [Issues](https://github.com/lxxz1918/dsh-theme-customizer/issues) 发议题
+- 维护时间：**每周日**集中查看议题并回复
+- 哔哩哔哩：[个人主页](https://space.bilibili.com/38175333)
 
 ## AI 使用说明
 
