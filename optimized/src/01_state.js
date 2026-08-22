@@ -101,4 +101,5 @@
       // sliderColor / sliderOpacity = 主题设置插件滑条（range，data-thmcz-range）已填充部分（左半边）+圆点 颜色/透明度
       // sliderTrackColor / sliderTrackOpacity = 滑条未填充轨道（右半边）颜色/透明度（v0.9.15；默认浏览器深色 → 必须自定义）
       // scrollColor / scrollOpacity = 浮窗界面滚动条（[data-thmcz-float-scroll]）thumb 颜色/透明度
-      let convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0 }
+      // v1.0.3：对话区 8 项各自加透明度键（bubble/inline/code 设色走 token rgba、未设色走元素 color-mix；其余设色 rgba）
+      let convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0, bubbleOpacity: 0, inlineOpacity: 0, codeOpacity: 0, scrollbarOpacity: 0, chatScrollOpacity: 0, todoCollapsedOpacity: 0, todoExpandedOpacity: 0, toBottomOpacity: 0 }

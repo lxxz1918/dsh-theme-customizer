@@ -121,7 +121,8 @@
           if (c.composerStatsItems && typeof c.composerStatsItems === 'object') composerStatsItems = { ...composerStatsItems, ...c.composerStatsItems }
           // 对话区背景（2026-08-21 新增）：null=官方默认；旧数据无此字段 → 保持默认；旧 terminal/assistant 字段已改版（忽略）
           // v0.9.14：命令两按钮透明度字段（addBtnOpacity/cmdMenuOpacity）默认 0；v0.9.15：toBottom/sliderColor/sliderTrackColor/scrollColor 及透明度
-          if (c.convBgs && typeof c.convBgs === 'object') convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0, ...c.convBgs }
+          // v1.0.3：对话区 8 项透明度键（bubbleOpacity 等）默认 0
+          if (c.convBgs && typeof c.convBgs === 'object') convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0, bubbleOpacity: 0, inlineOpacity: 0, codeOpacity: 0, scrollbarOpacity: 0, chatScrollOpacity: 0, todoCollapsedOpacity: 0, todoExpandedOpacity: 0, toBottomOpacity: 0, ...c.convBgs }
           // 兼容旧数据：缺新字段时立即写回一次（补全 cordisEntry 等）；saveNow 不再 notify，这里补一次
           if (typeof c.cordisEntry !== 'boolean' || c.opacitySem !== 4) { saveNow(); notify() }
         } catch (e) { /* 忽略 */ }

@@ -146,8 +146,8 @@
           // ── 命令（「+」按钮背景 / 命令菜单背景 + 透明度 + 全部恢复官方默认）──
           React.createElement('div', { style: { marginTop: '8px', paddingTop: '10px', borderTop: '1px solid var(--dsw-alias-border-l1)' } },
             React.createElement('div', { style: { fontSize: '13px', fontWeight: 600, marginBottom: '6px' } }, '命令'),
-            ConvBgRow({ label: '命令按钮', value: convBgs.addBtn, onSet: (v) => setConvBg('addBtn', v), opacity: convBgs.addBtnOpacity == null ? 0 : convBgs.addBtnOpacity, onOpacity: (v) => setConvBg('addBtnOpacity', v), onReset: () => { setConvBg('addBtn', null); setConvBg('addBtnOpacity', 0) } }),
-            ConvBgRow({ label: '命令菜单', value: convBgs.cmdMenu, onSet: (v) => setConvBg('cmdMenu', v), opacity: convBgs.cmdMenuOpacity == null ? 0 : convBgs.cmdMenuOpacity, onOpacity: (v) => setConvBg('cmdMenuOpacity', v), onReset: () => { setConvBg('cmdMenu', null); setConvBg('cmdMenuOpacity', 0) } }),
+            ConvBgRow({ label: '命令按钮', value: convBgs.addBtn, onSet: (v) => setConvBg('addBtn', v), opacity: convBgs.addBtnOpacity == null ? 0 : convBgs.addBtnOpacity, onOpacity: (v) => setConvBg('addBtnOpacity', v), onReset: () => { setConvBg('addBtn', null); setConvBg('addBtnOpacity', 0) }, opacityAlways: true }),
+            ConvBgRow({ label: '命令菜单', value: convBgs.cmdMenu, onSet: (v) => setConvBg('cmdMenu', v), opacity: convBgs.cmdMenuOpacity == null ? 0 : convBgs.cmdMenuOpacity, onOpacity: (v) => setConvBg('cmdMenuOpacity', v), onReset: () => { setConvBg('cmdMenu', null); setConvBg('cmdMenuOpacity', 0) }, opacityAlways: true }),
             cmdCustom
               ? React.createElement('div', { style: { marginTop: '4px' } },
                   React.createElement(ConfirmButton, {

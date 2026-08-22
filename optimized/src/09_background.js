@@ -275,9 +275,12 @@
         const { convBgs } = useStore(['main'])
         return React.createElement('div', { style: { marginTop: '8px', paddingTop: '10px', borderTop: '1px solid var(--dsw-alias-border-l1)' } },
           React.createElement('div', { style: { fontSize: '13px', fontWeight: 600, marginBottom: '6px' } }, '滑条与滚动条'),
-          ConvBgRow({ label: '滑条颜色', value: convBgs.sliderColor, onSet: (v) => setConvBg('sliderColor', v), opacity: convBgs.sliderOpacity == null ? 0 : convBgs.sliderOpacity, onOpacity: (v) => setConvBg('sliderOpacity', v), onReset: () => { setConvBg('sliderColor', null); setConvBg('sliderOpacity', 0) }, noDefaultText: true }),
-          ConvBgRow({ label: '滑条轨道颜色', value: convBgs.sliderTrackColor, onSet: (v) => setConvBg('sliderTrackColor', v), opacity: convBgs.sliderTrackOpacity == null ? 0 : convBgs.sliderTrackOpacity, onOpacity: (v) => setConvBg('sliderTrackOpacity', v), onReset: () => { setConvBg('sliderTrackColor', null); setConvBg('sliderTrackOpacity', 0) }, noDefaultText: true }),
-          ConvBgRow({ label: '滚动条颜色', value: convBgs.scrollColor, onSet: (v) => setConvBg('scrollColor', v), opacity: convBgs.scrollOpacity == null ? 0 : convBgs.scrollOpacity, onOpacity: (v) => setConvBg('scrollOpacity', v), onReset: () => { setConvBg('scrollColor', null); setConvBg('scrollOpacity', 0) }, noDefaultText: true }),
+          // v1.0.3：色块默认显示真实初始色（用户反馈"默认值不是初始值"）——
+          // 滑条填充未设置 = 浏览器默认 accent 蓝 #0060df（Chrome 默认 range 已填充色）；
+          // 轨道未设置 = buildConvCss 默认 rgba(128,128,128,0.3) 白底合成 ≈ #d9d9d9
+          ConvBgRow({ label: '滑条颜色', value: convBgs.sliderColor, onSet: (v) => setConvBg('sliderColor', v), opacity: convBgs.sliderOpacity == null ? 0 : convBgs.sliderOpacity, onOpacity: (v) => setConvBg('sliderOpacity', v), onReset: () => { setConvBg('sliderColor', null); setConvBg('sliderOpacity', 0) }, noDefaultText: true, defaultSwatch: '#0060df', opacityAlways: true }),
+          ConvBgRow({ label: '滑条轨道颜色', value: convBgs.sliderTrackColor, onSet: (v) => setConvBg('sliderTrackColor', v), opacity: convBgs.sliderTrackOpacity == null ? 0 : convBgs.sliderTrackOpacity, onOpacity: (v) => setConvBg('sliderTrackOpacity', v), onReset: () => { setConvBg('sliderTrackColor', null); setConvBg('sliderTrackOpacity', 0) }, noDefaultText: true, defaultSwatch: '#d9d9d9', opacityAlways: true }),
+          ConvBgRow({ label: '滚动条颜色', value: convBgs.scrollColor, onSet: (v) => setConvBg('scrollColor', v), opacity: convBgs.scrollOpacity == null ? 0 : convBgs.scrollOpacity, onOpacity: (v) => setConvBg('scrollOpacity', v), onReset: () => { setConvBg('scrollColor', null); setConvBg('scrollOpacity', 0) }, noDefaultText: true, defaultSwatch: '#e5e5e5', opacityAlways: true }),
         )
       }
 
@@ -289,8 +292,8 @@
       // v0.9.18：恢复按钮条件含透明度（只调透明度未调颜色时也可恢复）——框线/滑条区需要
       // v0.9.18：可选 defaultSwatch——未设置（value null）时色块显示的默认色（默认 #ffffff；框线板块传官方淡灰/设置界面黑色）
       // v0.9.18：可选 defaultText——未设置时的状态文本（默认"官方默认"；浮窗面板传"默认"——浮窗是插件自己的面板无官方语义）
-      function ConvBgRow({ label, value, onSet, opacity, onOpacity, onReset, noDefaultText, defaultSwatch, defaultText }) {
-        // 透明度滑条始终可用（官方默认色 + 用户透明度 → buildConvCss 用 color-mix 作用于官方 token）
+      function ConvBgRow({ label, value, onSet, opacity, onOpacity, onReset, noDefaultText, defaultSwatch, defaultText, opacityAlways }) {
+        // hasOpacity = 是否接透明度滑条；opacityAlways=true（命令按钮）始终显示，false（默认）仅设色后显示
         const hasOpacity = opacity != null && onOpacity != null
         const custom = !!(value || (hasOpacity && opacity > 0))
         return React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: '6px', fontSize: '12px' } },
@@ -304,8 +307,8 @@
             label: '恢复官方默认', confirmLabel: '确认恢复官方默认',
             onConfirm: () => { if (onReset) onReset(); else onSet(null) }, resetKey: (value || '') + '|' + (hasOpacity ? (opacity == null ? 0 : opacity) : ''),
           }) : null,
-          // 透明度滑条（仅命令两按钮 + 有自定义颜色时）：数值大=透明（语义同全局）；拖动走 OpacitySlider 内部抑制（suppress/commit，直更 style）
-          hasOpacity ? React.createElement(OpacitySlider, { value: opacity, onChange: (v) => onOpacity(v) }) : null,
+          // 透明度滑条：opacityAlways=true（命令按钮）始终显示（官方默认色也可调）；默认 false（对话区）仅设色后显示（未设色无官方色可淡，拖动无效会困惑）
+          hasOpacity && (opacityAlways || custom) ? React.createElement(OpacitySlider, { value: opacity, onChange: (v) => onOpacity(v) }) : null,
         )
       }
 
@@ -313,18 +316,19 @@
       // 渲染在「对话区」卡片内部（原待支持区块，现挂接本子版块）；底部"全部恢复官方默认"（任一改动过才显示，仿字体颜色）
       function ConversationEditor() {
         const { convBgs } = useStore()
-        const hasCustom = !!convBgs.bubble || !!convBgs.inline || !!convBgs.code || !!convBgs.scrollbar || !!convBgs.chatScroll || !!convBgs.todoCollapsed || !!convBgs.todoExpanded || !!convBgs.toBottom
+        const hasCustom = !!convBgs.bubble || !!convBgs.inline || !!convBgs.code || !!convBgs.scrollbar || !!convBgs.chatScroll || !!convBgs.todoCollapsed || !!convBgs.todoExpanded || !!convBgs.toBottom || !!convBgs.bubbleOpacity || !!convBgs.inlineOpacity || !!convBgs.codeOpacity || !!convBgs.scrollbarOpacity || !!convBgs.chatScrollOpacity || !!convBgs.todoCollapsedOpacity || !!convBgs.todoExpandedOpacity || !!convBgs.toBottomOpacity
         return React.createElement('div', null,
-          ConvBgRow({ label: '用户发言背景', value: convBgs.bubble, onSet: (v) => setConvBg('bubble', v) }),
-          ConvBgRow({ label: '行内代码背景', value: convBgs.inline, onSet: (v) => setConvBg('inline', v) }),
+          // v1.0.3：8 项全部支持透明度（opacity 数值大=透明；onReset 同时清色+清透明度）
+          ConvBgRow({ label: '用户发言背景', value: convBgs.bubble, onSet: (v) => setConvBg('bubble', v), opacity: convBgs.bubbleOpacity == null ? 0 : convBgs.bubbleOpacity, onOpacity: (v) => setConvBg('bubbleOpacity', v), onReset: () => { setConvBg('bubble', null); setConvBg('bubbleOpacity', 0) } }),
+          ConvBgRow({ label: '行内代码背景', value: convBgs.inline, onSet: (v) => setConvBg('inline', v), opacity: convBgs.inlineOpacity == null ? 0 : convBgs.inlineOpacity, onOpacity: (v) => setConvBg('inlineOpacity', v), onReset: () => { setConvBg('inline', null); setConvBg('inlineOpacity', 0) } }),
           // v0.9.19：代码块滚动条 / 对话区滚动条两行位置对调（元素整体移动，键跟随；用户要求交换位置+文本）
           // v0.9.20 小调整：代码块背景 / 代码块滚动条位置交换（背景在前、滚动条在后，更符合逻辑）
-          ConvBgRow({ label: '代码块背景', value: convBgs.code, onSet: (v) => setConvBg('code', v) }),
-          ConvBgRow({ label: '代码块滚动条', value: convBgs.scrollbar, onSet: (v) => setConvBg('scrollbar', v) }),
-          ConvBgRow({ label: '对话区滚动条', value: convBgs.chatScroll, onSet: (v) => setConvBg('chatScroll', v) }),
-          ConvBgRow({ label: '任务栏收起', value: convBgs.todoCollapsed, onSet: (v) => setConvBg('todoCollapsed', v) }),
-          ConvBgRow({ label: '任务栏展开', value: convBgs.todoExpanded, onSet: (v) => setConvBg('todoExpanded', v) }),
-          ConvBgRow({ label: '一键到底', value: convBgs.toBottom, onSet: (v) => setConvBg('toBottom', v) }),
+          ConvBgRow({ label: '代码块背景', value: convBgs.code, onSet: (v) => setConvBg('code', v), opacity: convBgs.codeOpacity == null ? 0 : convBgs.codeOpacity, onOpacity: (v) => setConvBg('codeOpacity', v), onReset: () => { setConvBg('code', null); setConvBg('codeOpacity', 0) } }),
+          ConvBgRow({ label: '代码块滚动条', value: convBgs.scrollbar, onSet: (v) => setConvBg('scrollbar', v), opacity: convBgs.scrollbarOpacity == null ? 0 : convBgs.scrollbarOpacity, onOpacity: (v) => setConvBg('scrollbarOpacity', v), onReset: () => { setConvBg('scrollbar', null); setConvBg('scrollbarOpacity', 0) } }),
+          ConvBgRow({ label: '对话区滚动条', value: convBgs.chatScroll, onSet: (v) => setConvBg('chatScroll', v), opacity: convBgs.chatScrollOpacity == null ? 0 : convBgs.chatScrollOpacity, onOpacity: (v) => setConvBg('chatScrollOpacity', v), onReset: () => { setConvBg('chatScroll', null); setConvBg('chatScrollOpacity', 0) } }),
+          ConvBgRow({ label: '任务栏收起', value: convBgs.todoCollapsed, onSet: (v) => setConvBg('todoCollapsed', v), opacity: convBgs.todoCollapsedOpacity == null ? 0 : convBgs.todoCollapsedOpacity, onOpacity: (v) => setConvBg('todoCollapsedOpacity', v), onReset: () => { setConvBg('todoCollapsed', null); setConvBg('todoCollapsedOpacity', 0) } }),
+          ConvBgRow({ label: '任务栏展开', value: convBgs.todoExpanded, onSet: (v) => setConvBg('todoExpanded', v), opacity: convBgs.todoExpandedOpacity == null ? 0 : convBgs.todoExpandedOpacity, onOpacity: (v) => setConvBg('todoExpandedOpacity', v), onReset: () => { setConvBg('todoExpanded', null); setConvBg('todoExpandedOpacity', 0) } }),
+          ConvBgRow({ label: '一键到底', value: convBgs.toBottom, onSet: (v) => setConvBg('toBottom', v), opacity: convBgs.toBottomOpacity == null ? 0 : convBgs.toBottomOpacity, onOpacity: (v) => setConvBg('toBottomOpacity', v), onReset: () => { setConvBg('toBottom', null); setConvBg('toBottomOpacity', 0) }, noDefaultText: true }),
           hasCustom
             ? React.createElement('div', { style: { marginTop: '4px' } },
                 React.createElement(ConfirmButton, {
