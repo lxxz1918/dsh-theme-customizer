@@ -12,28 +12,28 @@
 
 ## 🎨 主题展示
 
-四套 AI 生成壁纸主题（亮暗交替排列），每套含 **横版**（主界面背景）与 **竖版**（侧边栏背景）两种方案，配套 `.tczp` 预设一键导入（见下方「素材包」）。
+四套 AI 生成壁纸主题（亮暗交替排列），每套含两种主界面「显示区域」模式：**包含侧边栏**（整屏一体）与**不包含侧边栏**（主体独立 + 侧边栏独立竖版壁纸），配套 `.tczp` 预设一键导入（见下方「素材包」）。
 
 | 🌌 星空极光（暗） | 🌇 黄昏云海（亮） |
 |:---:|:---:|
-| ![星空极光](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/aurora.png) | ![黄昏云海](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sunset.png) |
+| ![星空极光](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![黄昏云海](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) |
 | **🌃 赛博夜景（暗）** | **🌸 樱花晴天（亮）** |
-| ![赛博夜景](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/cyber.png) | ![樱花晴天](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sakura.png) |
+| ![赛博夜景](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![樱花晴天](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) |
 
 ## 📸 界面截图
 
-每套主题两种方案：**方案 A** = 横版壁纸（主界面整屏背景）、**方案 B** = 竖版壁纸（侧边栏独立背景）。每种方案 3 张：正面-1 / 正面-2 / 设置面。
+每套主题两种模式（对应预设 `-0` / `-1`）：**显示区域包含侧边栏**（整屏一体背景）与**显示区域不包含侧边栏**（主体独立 + 侧边栏独立竖版壁纸）。每种模式 3 张：正面-1 / 正面-2 / 设置面。
 
 <details>
 <summary>🌌 星空极光（暗）</summary>
 
-**方案 A · 横版壁纸**
+**显示区域包含侧边栏（-0）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
 | ![星空极光A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![星空极光A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.png) | ![星空极光A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.png) |
 
-**方案 B · 竖版壁纸**
+**显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
@@ -44,13 +44,13 @@
 <details>
 <summary>🌇 黄昏云海（亮）</summary>
 
-**方案 A · 横版壁纸**
+**显示区域包含侧边栏（-0）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
 | ![黄昏云海A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) | ![黄昏云海A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.png) | ![黄昏云海A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.png) |
 
-**方案 B · 竖版壁纸**
+**显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
@@ -61,13 +61,13 @@
 <details>
 <summary>🌃 赛博夜景（暗）</summary>
 
-**方案 A · 横版壁纸**
+**显示区域包含侧边栏（-0）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
 | ![赛博夜景A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![赛博夜景A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.png) | ![赛博夜景A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.png) |
 
-**方案 B · 竖版壁纸**
+**显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
@@ -78,13 +78,13 @@
 <details>
 <summary>🌸 樱花晴天（亮）</summary>
 
-**方案 A · 横版壁纸**
+**显示区域包含侧边栏（-0）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
 | ![樱花晴天A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) | ![樱花晴天A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.png) | ![樱花晴天A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.png) |
 
-**方案 B · 竖版壁纸**
+**显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|

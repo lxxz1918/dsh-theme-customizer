@@ -12,28 +12,28 @@
 
 ## 🎨 Theme Gallery
 
-Four AI-generated wallpaper themes (alternating dark/bright), each with a **landscape** (main UI background) and a **portrait** (sidebar background) variant, plus matching `.tczp` presets for one-click import (see "Asset Pack" below).
+Four AI-generated wallpaper themes (alternating dark/bright), each with two main-UI "display area" modes: **include sidebar** (one full-screen background) and **exclude sidebar** (main area + independent portrait sidebar background), plus matching `.tczp` presets for one-click import (see "Asset Pack" below).
 
 | 🌌 Aurora Nights (dark) | 🌇 Sunset Clouds (bright) |
 |:---:|:---:|
-| ![Aurora](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/aurora.png) | ![Sunset](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sunset.png) |
+| ![Aurora](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![Sunset](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) |
 | **🌃 Cyber Nights (dark)** | **🌸 Sakura Sky (bright)** |
-| ![Cyber](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/cyber.png) | ![Sakura](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sakura.png) |
+| ![Cyber](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![Sakura](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) |
 
 ## 📸 Screenshots
 
-Each theme has two variants: **Variant A** = landscape wallpaper (full main-UI background), **Variant B** = portrait wallpaper (independent sidebar background). Each variant has 3 shots: front-1 / front-2 / settings.
+Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar** (one full-screen background) and **display area excludes sidebar** (main area + independent portrait sidebar background). Each mode has 3 shots: front-1 / front-2 / settings.
 
 <details>
 <summary>🌌 Aurora Nights (dark)</summary>
 
-**Variant A · Landscape**
+**Display area includes sidebar (-0)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
 | ![Aurora A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![Aurora A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.png) | ![Aurora A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.png) |
 
-**Variant B · Portrait**
+**Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
@@ -44,13 +44,13 @@ Each theme has two variants: **Variant A** = landscape wallpaper (full main-UI b
 <details>
 <summary>🌇 Sunset Clouds (bright)</summary>
 
-**Variant A · Landscape**
+**Display area includes sidebar (-0)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
 | ![Sunset A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) | ![Sunset A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.png) | ![Sunset A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.png) |
 
-**Variant B · Portrait**
+**Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
@@ -61,13 +61,13 @@ Each theme has two variants: **Variant A** = landscape wallpaper (full main-UI b
 <details>
 <summary>🌃 Cyber Nights (dark)</summary>
 
-**Variant A · Landscape**
+**Display area includes sidebar (-0)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
 | ![Cyber A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![Cyber A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.png) | ![Cyber A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.png) |
 
-**Variant B · Portrait**
+**Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
@@ -78,13 +78,13 @@ Each theme has two variants: **Variant A** = landscape wallpaper (full main-UI b
 <details>
 <summary>🌸 Sakura Sky (bright)</summary>
 
-**Variant A · Landscape**
+**Display area includes sidebar (-0)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
 | ![Sakura A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) | ![Sakura A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.png) | ![Sakura A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.png) |
 
-**Variant B · Portrait**
+**Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
