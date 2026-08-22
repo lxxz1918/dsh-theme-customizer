@@ -17,7 +17,8 @@
     "PATCH-CORDIS-BUTTON.md",
     "对话区测试指令.md",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "README.en.md"
   ],
   "repository": {
     "type": "git",
