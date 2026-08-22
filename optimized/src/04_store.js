@@ -130,7 +130,7 @@
         newSession = { showText: true, showIcon: true, mode: 'none', color: '#ffffff', opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0, image: null, iconColor: null, textColor: null }
         brand = { color: '#3964fe', opacity: 0 }
         brandHarness = { color: null, opacity: 0 }
-        borders = { main: { color: null, opacity: 0 }, cordis: { color: null, opacity: 0 }, composer: { color: null, opacity: 0 }, details: { color: null, opacity: 0 }, float: { color: null, opacity: 0 } }
+        borders = { main: { color: null, opacity: 0 }, cordis: { color: null, opacity: 0 }, composer: { color: null, opacity: 0 }, details: { color: null, opacity: 0 }, float: { color: null, opacity: 0 }, newSession: { color: null, opacity: 0 } }
         colors = { main: null, process: null, aux: null, faded: null, accent: null }
         convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0 }
         showOpacityHint = true
@@ -140,6 +140,13 @@
         composerFixedHeight = false
         composerRows = 4
         composerStatsItems = { turns: true, steps: true, llm: true, tool: true, ttft: true, tps: true, cache: true, input: true, output: true }
+        // ⚠️ v1.0.2 加固：清空 sidebarInfo 缓存并重新检测（2026-08-22 用户反馈——全局重置后第一次切
+        //   「不包含侧边栏」用了旧检测宽度 → 背景偏移错误盖进侧边栏右 4/5，刷新后才正常）。
+        //   检测走 detectSidebar（同步 DOM 查询，微秒级）；结果与旧值相同则 setSidebarInfo 值比较直接跳过，零重渲染。
+        //   注意：本函数拼接顺序在 03_detect 之后（函数提升），detectSidebar 可用。
+        sidebarInfo = null
+        const info = detectSidebar()
+        if (info) setSidebarInfo(info)
         notify(); statsNotify(); floatNotify(); saveNow()
       }
       // 输入区卡片实测宽高比（非用户配置，不持久化）：AreaCss 布局后测量，供 getCropRatio 使用。

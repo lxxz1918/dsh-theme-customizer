@@ -15,7 +15,8 @@
       ]
       // 框线区域（v0.9.18）：main=主界面（含侧边栏，覆盖布局三列）/ cordis=Cordis 插件界面 / composer=输入区 /
       // details=设置界面 / float=浮窗面板；label 显示名在 15_borders.js，选择器在 07_css_builder buildBordersCss
-      const BORDER_KEYS = ['main', 'cordis', 'composer', 'details', 'float']
+      // v1.0.2 加 newSession=新会话按钮（独立框线，主界面行下面设置；官方默认 1px border-l2）
+      const BORDER_KEYS = ['main', 'cordis', 'composer', 'details', 'float', 'newSession']
       // 框线默认色（v0.9.18 用户定）：主界面/Cordis/输入区 = 淡灰 #e6e6e6（官方 border-l2 rgba(0,0,0,.1) 白底合成，与色块一致）；
       // 设置界面/浮窗面板 = 黑色。CSS 用（07 buildBordersCss）、色块显示用（15 BordersModule）共用一处定义
       const BORDER_DEFAULT_LIGHT = '#e6e6e6'
