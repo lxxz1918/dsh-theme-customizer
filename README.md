@@ -16,9 +16,9 @@
 
 | 🌌 星空极光（暗） | 🌇 黄昏云海（亮） |
 |:---:|:---:|
-| ![星空极光](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![黄昏云海](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) |
+| ![星空极光](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.jpg) | ![黄昏云海](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.jpg) |
 | **🌃 赛博夜景（暗）** | **🌸 樱花晴天（亮）** |
-| ![赛博夜景](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![樱花晴天](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) |
+| ![赛博夜景](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.jpg) | ![樱花晴天](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.jpg) |
 
 ## 📸 界面截图
 
@@ -31,13 +31,13 @@
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![星空极光A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![星空极光A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.png) | ![星空极光A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.png) |
+| ![星空极光A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.jpg) | ![星空极光A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.jpg) | ![星空极光A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.jpg) |
 
 **显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![星空极光B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-1.png) | ![星空极光B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-2.png) | ![星空极光B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-settings.png) |
+| ![星空极光B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-1.jpg) | ![星空极光B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-2.jpg) | ![星空极光B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-settings.jpg) |
 
 </details>
 
@@ -48,13 +48,13 @@
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![黄昏云海A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) | ![黄昏云海A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.png) | ![黄昏云海A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.png) |
+| ![黄昏云海A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.jpg) | ![黄昏云海A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.jpg) | ![黄昏云海A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.jpg) |
 
 **显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![黄昏云海B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-1.png) | ![黄昏云海B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-2.png) | ![黄昏云海B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-settings.png) |
+| ![黄昏云海B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-1.jpg) | ![黄昏云海B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-2.jpg) | ![黄昏云海B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-settings.jpg) |
 
 </details>
 
@@ -65,13 +65,13 @@
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![赛博夜景A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![赛博夜景A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.png) | ![赛博夜景A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.png) |
+| ![赛博夜景A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.jpg) | ![赛博夜景A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.jpg) | ![赛博夜景A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.jpg) |
 
 **显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![赛博夜景B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-1.png) | ![赛博夜景B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-2.png) | ![赛博夜景B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-settings.png) |
+| ![赛博夜景B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-1.jpg) | ![赛博夜景B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-2.jpg) | ![赛博夜景B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-settings.jpg) |
 
 </details>
 
@@ -82,13 +82,13 @@
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![樱花晴天A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) | ![樱花晴天A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.png) | ![樱花晴天A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.png) |
+| ![樱花晴天A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.jpg) | ![樱花晴天A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.jpg) | ![樱花晴天A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.jpg) |
 
 **显示区域不包含侧边栏（-1）**
 
 | 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| ![樱花晴天B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-1.png) | ![樱花晴天B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-2.png) | ![樱花晴天B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-settings.png) |
+| ![樱花晴天B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-1.jpg) | ![樱花晴天B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-2.jpg) | ![樱花晴天B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-settings.jpg) |
 
 </details>
 
@@ -168,7 +168,7 @@ dsh plugin --profile web add <本仓库路径>
 展示/
 ├── readme展示图/          # README 用展示截图（4 主题 × 2 方案 × 3 张）
 ├── 展示1/ ~ 展示4/        # 每套：壁纸原图（横版 + 竖版）+ 2 个 .tczp 预设 + 截图
-└── （壁纸竖版/横版原图见 展示N/N-0.png、N-1.png）
+└── （壁纸竖版/横版原图见 展示N/N-0、N-1）
 ```
 
 > 预设导入：设置 → 主题 → 预设面板 → 导入预设 → 选 `展示N-N.tczp`，自动带图还原整套效果。

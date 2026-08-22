@@ -16,9 +16,9 @@ Four AI-generated wallpaper themes (alternating dark/bright), each with two main
 
 | 🌌 Aurora Nights (dark) | 🌇 Sunset Clouds (bright) |
 |:---:|:---:|
-| ![Aurora](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![Sunset](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) |
+| ![Aurora](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.jpg) | ![Sunset](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.jpg) |
 | **🌃 Cyber Nights (dark)** | **🌸 Sakura Sky (bright)** |
-| ![Cyber](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![Sakura](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) |
+| ![Cyber](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.jpg) | ![Sakura](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.jpg) |
 
 ## 📸 Screenshots
 
@@ -31,13 +31,13 @@ Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar*
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Aurora A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![Aurora A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.png) | ![Aurora A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.png) |
+| ![Aurora A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.jpg) | ![Aurora A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.jpg) | ![Aurora A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.jpg) |
 
 **Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Aurora B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-1.png) | ![Aurora B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-2.png) | ![Aurora B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-settings.png) |
+| ![Aurora B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-1.jpg) | ![Aurora B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-2.jpg) | ![Aurora B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-settings.jpg) |
 
 </details>
 
@@ -48,13 +48,13 @@ Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar*
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Sunset A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) | ![Sunset A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.png) | ![Sunset A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.png) |
+| ![Sunset A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.jpg) | ![Sunset A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.jpg) | ![Sunset A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.jpg) |
 
 **Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Sunset B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-1.png) | ![Sunset B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-2.png) | ![Sunset B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-settings.png) |
+| ![Sunset B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-1.jpg) | ![Sunset B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-2.jpg) | ![Sunset B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-settings.jpg) |
 
 </details>
 
@@ -65,13 +65,13 @@ Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar*
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Cyber A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![Cyber A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.png) | ![Cyber A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.png) |
+| ![Cyber A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.jpg) | ![Cyber A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.jpg) | ![Cyber A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.jpg) |
 
 **Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Cyber B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-1.png) | ![Cyber B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-2.png) | ![Cyber B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-settings.png) |
+| ![Cyber B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-1.jpg) | ![Cyber B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-2.jpg) | ![Cyber B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-settings.jpg) |
 
 </details>
 
@@ -82,13 +82,13 @@ Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar*
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Sakura A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) | ![Sakura A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.png) | ![Sakura A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.png) |
+| ![Sakura A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.jpg) | ![Sakura A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.jpg) | ![Sakura A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.jpg) |
 
 **Display area excludes sidebar (-1)**
 
 | Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| ![Sakura B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-1.png) | ![Sakura B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-2.png) | ![Sakura B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-settings.png) |
+| ![Sakura B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-1.jpg) | ![Sakura B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-2.jpg) | ![Sakura B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-settings.jpg) |
 
 </details>
 
@@ -168,7 +168,7 @@ The **full assets** for all four themes (original wallpapers + 8 `.tczp` presets
 展示/
 ├── readme展示图/          # README screenshots (4 themes × 2 variants × 3 shots)
 ├── 展示1/ ~ 展示4/        # Each: original wallpapers (landscape + portrait) + 2 .tczp presets + shots
-└── (wallpaper originals: 展示N/N-0.png, N-1.png)
+└── (wallpaper originals: 展示N/N-0, N-1)
 ```
 
 > Import: Settings → Theme → Presets → Import → pick `展示N-N.tczp` — images included, full effect restored in one click.
