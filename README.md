@@ -162,7 +162,7 @@ dsh plugin --profile web add <本仓库路径>
 
 ## 📦 素材包
 
-四套主题的**完整素材**（壁纸原图 + 8 个 `.tczp` 预设 + 全部展示截图）打包在 [GitHub Releases 附件](https://github.com/lxxz1918/dsh-theme-customizer/releases) 的 `展示.7z` 中，下载后 7-Zip 解压即可：
+四套主题的**完整素材**（壁纸原图 + 8 个 `.tczp` 预设 + 全部展示截图）打包在 [GitHub Releases 附件](https://github.com/lxxz1918/dsh-theme-customizer/releases) 的 `展示.zip` 中，下载后 7-Zip 解压即可：
 
 ```
 展示/

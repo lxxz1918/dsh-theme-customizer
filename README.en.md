@@ -162,7 +162,7 @@ Presets panel → "Import preset" and pick a `.tczp` file to restore a whole con
 
 ## 📦 Asset Pack
 
-The **full assets** for all four themes (original wallpapers + 8 `.tczp` presets + all showcase screenshots) are packed in `展示.7z` attached to [GitHub Releases](https://github.com/lxxz1918/dsh-theme-customizer/releases). Download and extract with 7-Zip:
+The **full assets** for all four themes (original wallpapers + 8 `.tczp` presets + all showcase screenshots) are packed in `展示.zip` attached to [GitHub Releases](https://github.com/lxxz1918/dsh-theme-customizer/releases). Download and extract with 7-Zip:
 
 ```
 展示/
