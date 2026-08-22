@@ -215,6 +215,8 @@
           composer: '[data-composer-seat], [data-composer-card]',
           details: '[class*="VOzbGW_panel"]',
           float: '[data-thmcz-float]',
+          // v1.0.2：新会话按钮独立框线（官方边框 1px solid border-l2 → 随本区域变量）
+          newSession: '[class*="_newSession"]:not([class*="_newSessionLabel"])',
         }
         const cssParts = []
         for (const k of BORDER_KEYS) {
@@ -243,17 +245,21 @@
         if (!ns.showText) cssParts.push(nsLabel + ' { display: none !important; }')
         if (!ns.showIcon) cssParts.push(nsBtn + ' svg { display: none !important; }')
         if (ns.mode === 'none') {
-          cssParts.push(nsBtn + ' { background-color: ' + bottom + ' !important; border-color: transparent !important; }')
+          // 「无」模式：背景透明透出侧边栏，但保留官方边框（v1.0.2 用户定：默认状态新会话要有边框。
+          // 曾强制 border-color transparent（v0.7.x"无模式完全隐形"），官方默认是 1px solid --dsw-alias-border-l2）
+          cssParts.push(nsBtn + ' { background-color: ' + bottom + ' !important; }')
           cssParts.push(nsBtn + ':hover { background-color: transparent !important; }')
         } else if (ns.mode === 'color') {
           const a = 1 - (ns.opacity == null ? 0 : ns.opacity)
           const [r, g, b] = parseRgb(ns.color)
-          cssParts.push(nsBtn + ' { background-color: ' + bottom + ' !important; border-color: transparent !important; position: relative !important; z-index: 0 !important; }')
+          // v1.0.2：纯色模式也保留边框（跟随新会话框线设置）；边框绘制在 ::before 之上（背景在 z-index:-1 层）
+          cssParts.push(nsBtn + ' { background-color: ' + bottom + ' !important; position: relative !important; z-index: 0 !important; }')
           cssParts.push(nsBtn + '::before { content: "" !important; position: absolute !important; inset: 0 !important; z-index: -1 !important; pointer-events: none !important; background-image: linear-gradient(rgba(' + r + ',' + g + ',' + b + ',' + a + '), rgba(' + r + ',' + g + ',' + b + ',' + a + ')) !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; }')
           cssParts.push(nsBtn + ':hover { background-color: transparent !important; }')
         } else if (ns.mode === 'image' && ns.image) {
           const alpha = 1 - (ns.opacity == null ? 0 : ns.opacity)
-          cssParts.push(nsBtn + ' { background-color: ' + bottom + ' !important; border-color: transparent !important; position: relative !important; z-index: 0 !important; }')
+          // v1.0.2：图片模式也保留边框（跟随新会话框线设置）
+          cssParts.push(nsBtn + ' { background-color: ' + bottom + ' !important; position: relative !important; z-index: 0 !important; }')
           cssParts.push(nsBtn + '::before { content: "" !important; position: absolute !important; inset: 0 !important; z-index: -1 !important; pointer-events: none !important; background-image: var(--tcz-ns-img) !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; -webkit-mask-image: linear-gradient(rgba(0,0,0,' + alpha + '), rgba(0,0,0,' + alpha + ')) !important; mask-image: linear-gradient(rgba(0,0,0,' + alpha + '), rgba(0,0,0,' + alpha + ')) !important; }')
           cssParts.push(nsBtn + ':hover { background-color: transparent !important; }')
         }

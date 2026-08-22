@@ -41,15 +41,17 @@
       // BrandWordmark path 顺序：第 1-10 个 = DeepSeek，第 11-17 个 = Harness（x 坐标 132-178）
       // → CSS `svg path:nth-child(n+11) { fill: 色 }` 直接覆盖 currentColor
       let brandHarness = { color: null, opacity: 0 }
-      // 框线（v0.9.18）：所有 UI 默认边框/分隔线颜色 + 透明度（数值大=透明），5 区域独立。
+      // 框线（v0.9.18）：所有 UI 默认边框/分隔线颜色 + 透明度，5 区域独立。
       // color null=官方默认（此时 opacity>0 用 color-mix 淡化官方色，层级保留）；
       // main=主界面（含侧边栏）/ cordis=Cordis 插件界面 / composer=输入区 / details=设置界面 / float=浮窗面板
+      // v1.0.2 加 newSession=新会话按钮（独立框线）
       let borders = {
         main: { color: null, opacity: 0 },
         cordis: { color: null, opacity: 0 },
         composer: { color: null, opacity: 0 },
         details: { color: null, opacity: 0 },
         float: { color: null, opacity: 0 },
+        newSession: { color: null, opacity: 0 },
       }
       // 设置界面面板拖动位置（v0.9.19）：null=官方居中（默认）；{x,y}=拖动后的固定位置（persist 到 localStorage）
       // 拖动用内联 style 直更（pointermove），pointerup 写回本状态 → CSS 重建保持位置（刷新不丢）

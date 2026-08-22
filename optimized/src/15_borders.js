@@ -9,6 +9,8 @@
         const { borders } = useStore(['main'])
         const defs = [
           { id: 'main', label: '主界面' },
+          // v1.0.2：新会话独立框线，紧跟主界面行（用户定：新会话框线在主界面框线下设置）
+          { id: 'newSession', label: '新会话' },
           { id: 'cordis', label: 'Cordis 插件界面' },
           { id: 'composer', label: '输入区' },
           { id: 'details', label: '设置界面' },
