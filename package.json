@@ -1,0 +1,49 @@
+{
+  "name": "dsh-theme-customizer",
+  "version": "1.0.0",
+  "description": "DeepSeek Harness (DSH) Web 界面自定义主题插件：七区域背景（主界面/侧边栏/输入区/设置界面/浮窗/Cordis，纯色/图片/选区裁剪/透明度）、文字颜色 5 类、框线颜色、标志调色、对话区细节定制、输入区统计条接管、浮动主题面板、预设导入导出（.tczp 含图）、localStorage 持久化。",
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/",
+    "cordis.patch.yml",
+    "apply-patch.cjs",
+    "PATCH-CORDIS-BUTTON.md",
+    "对话区测试指令.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lxxz1918/dsh-theme-customizer.git"
+  },
+  "author": "lxxz1918",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "theme",
+    "customizer",
+    "web-ui"
+  ],
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

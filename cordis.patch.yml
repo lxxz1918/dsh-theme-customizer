@@ -1,0 +1,9 @@
+# dsh-theme-customizer bundle layer: applied automatically when the package
+# is installed (package.json declares dsh.bundle.patch). The insert row makes
+# the package a Cordis plugin row; because the package declares dsh.client,
+# the same row also enters the browser roster (window.__DSH_BOOT__) and its
+# ./client export is served as a client bundle.
+
+- insert:
+    - id: theme-customizer
+      name: dsh-theme-customizer
