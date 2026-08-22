@@ -71,8 +71,11 @@
           } else {
             cssParts.push('html, body { background-color: ' + bg + ' !important; background-image: ' + grad + ' !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; }')
           }
-        } else if (appBottom) {
-          cssParts.push('html, body { background-color: ' + appBottom + ' !important; }')
+        } else {
+          // 「无」模式（v1.0.1 2026-08-22 用户定）：不注入任何内容 = 完全官方原样。
+          // 曾做 html,body 垫色（v0.9.2），但官方 _frame/三列等容器自带不透明背景盖住垫色看不到，
+          // 且侧边栏「无」模式透出下层会透出垫色 → "侧边栏变红"（连锁问题）。
+          // 主界面「无」模式已不显示底色选项（09 AreaEditor）；旧配置残留 bottomColor 也不再垫色。
         }
         return cssParts.join(' ')
       }

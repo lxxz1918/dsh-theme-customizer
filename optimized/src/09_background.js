@@ -88,7 +88,10 @@
             : null,
           // 底色：主界面(app)/输入区/设置界面/浮窗面板/Cordis 卡片底部"底色"；
           // 透明度显示（v0.9.14 用户定）：sidebar + details + float + composer + cordis 显示底色透明度；app 仅颜色（用户 v0.9.2 定主界面底色仅颜色）
-          area.id === 'app' || area.id === 'sidebar' || area.id === 'composer' || area.id === 'details' || area.id === 'float' || area.id === 'cordis'
+          // ⚠️ v1.0.1（2026-08-22 用户定）：主界面「无」模式不显示底色——无模式下官方原样、不做垫色
+          //   （此前「无」模式垫色被官方 _frame/三列不透明背景盖住看不到，且透出到侧边栏导致"侧边栏变红"连锁问题）；
+          //   纯色/图片模式的底层垫色保留（appBottom 仍参与 color/image 分支）
+          (area.id !== 'app' || value.mode !== 'none') && (area.id === 'app' || area.id === 'sidebar' || area.id === 'composer' || area.id === 'details' || area.id === 'float' || area.id === 'cordis')
             ? React.createElement(BottomRow, { value: value, onChange: (next) => onChange({ ...value, ...next }), style: { marginTop: '4px', marginBottom: '4px' }, title: '底色', hideOpacity: area.id === 'app', noSwitch: area.id !== 'sidebar' })
             : null,
           children,
