@@ -12,7 +12,7 @@
 
 ## 🎨 Theme Gallery
 
-Four AI-generated wallpaper themes (alternating dark/bright), each with two main-UI "display area" modes: **include sidebar** (one full-screen background) and **exclude sidebar** (main area + independent portrait sidebar background), plus matching `.tczp` presets for one-click import (see "Asset Pack" below).
+Four AI-generated wallpaper themes, each with two main-UI "display area" modes: **include sidebar**  and **exclude sidebar**, plus matching `.tczp` presets for one-click import (see "Asset Pack" below).
 
 | 🌌 Aurora Nights (dark) | 🌇 Sunset Clouds (bright) |
 |:---:|:---:|
@@ -22,7 +22,7 @@ Four AI-generated wallpaper themes (alternating dark/bright), each with two main
 
 ## 📸 Screenshots
 
-Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar** (one full-screen background) and **display area excludes sidebar** (main area + independent portrait sidebar background). Each mode has 3 shots: front-1 / front-2 / settings.
+Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar**  and **display area excludes sidebar** . Each mode has 3 shots: front-1 / front-2 / settings.
 
 <details>
 <summary>🌌 Aurora Nights (dark)</summary>
