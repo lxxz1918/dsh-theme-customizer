@@ -10,12 +10,87 @@
 > DeepSeek Harness（DSH）Web 界面自定义主题插件：背景、文字、框线、细节全部可视化设置，刷新/重启不丢。
 > 配置存 localStorage，预设可导出 `.tczp` 文件（含图片）分享到任意电脑。
 
-## 界面预览
+## 🎨 主题展示
 
-| | 主界面效果 | 设置面板 |
+四套 AI 生成壁纸主题（亮暗交替排列），每套含 **横版**（主界面背景）与 **竖版**（侧边栏背景）两种方案，配套 `.tczp` 预设一键导入（见下方「素材包」）。
+
+| 🌌 星空极光（暗） | 🌇 黄昏云海（亮） |
+|:---:|:---:|
+| ![星空极光](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/aurora.png) | ![黄昏云海](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sunset.png) |
+| **🌃 赛博夜景（暗）** | **🌸 樱花晴天（亮）** |
+| ![赛博夜景](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/cyber.png) | ![樱花晴天](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sakura.png) |
+
+## 📸 界面截图
+
+每套主题两种方案：**方案 A** = 横版壁纸（主界面整屏背景）、**方案 B** = 竖版壁纸（侧边栏独立背景）。每种方案 3 张：正面-1 / 正面-2 / 设置面。
+
+<details>
+<summary>🌌 星空极光（暗）</summary>
+
+**方案 A · 横版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
 |:---:|:---:|:---:|
-| **示例预设 0** | ![预设0主界面](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/theme-effect.png) | ![预设0面板](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/settings-panel.png) |
-| **示例预设 1** | ![预设1主界面](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-main.png) | ![预设1面板](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-panel.png) |
+| ![星空极光A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![星空极光A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.png) | ![星空极光A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.png) |
+
+**方案 B · 竖版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![星空极光B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-1.png) | ![星空极光B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-2.png) | ![星空极光B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-settings.png) |
+
+</details>
+
+<details>
+<summary>🌇 黄昏云海（亮）</summary>
+
+**方案 A · 横版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![黄昏云海A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) | ![黄昏云海A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.png) | ![黄昏云海A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.png) |
+
+**方案 B · 竖版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![黄昏云海B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-1.png) | ![黄昏云海B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-2.png) | ![黄昏云海B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-settings.png) |
+
+</details>
+
+<details>
+<summary>🌃 赛博夜景（暗）</summary>
+
+**方案 A · 横版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![赛博夜景A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![赛博夜景A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.png) | ![赛博夜景A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.png) |
+
+**方案 B · 竖版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![赛博夜景B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-1.png) | ![赛博夜景B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-2.png) | ![赛博夜景B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-settings.png) |
+
+</details>
+
+<details>
+<summary>🌸 樱花晴天（亮）</summary>
+
+**方案 A · 横版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![樱花晴天A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) | ![樱花晴天A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.png) | ![樱花晴天A-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.png) |
+
+**方案 B · 竖版壁纸**
+
+| 正面-1 | 正面-2 | 设置面 |
+|:---:|:---:|:---:|
+| ![樱花晴天B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-1.png) | ![樱花晴天B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-2.png) | ![樱花晴天B-设置](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-settings.png) |
+
+</details>
 
 ## 功能一览
 
@@ -84,6 +159,19 @@ dsh plugin --profile web add <本仓库路径>
 ## 预设文件（.tczp）
 
 预设面板 → 「导入预设」选择 `.tczp` 文件即可恢复整套配置（含图片，无需原图）。导出同样在预设面板逐条「导出」。
+
+## 📦 素材包
+
+四套主题的**完整素材**（壁纸原图 + 8 个 `.tczp` 预设 + 全部展示截图）打包在 [GitHub Releases 附件](https://github.com/lxxz1918/dsh-theme-customizer/releases) 的 `展示.7z` 中，下载后 7-Zip 解压即可：
+
+```
+展示/
+├── readme展示图/          # README 用展示截图（4 主题 × 2 方案 × 3 张）
+├── 展示1/ ~ 展示4/        # 每套：壁纸原图（横版 + 竖版）+ 2 个 .tczp 预设 + 截图
+└── （壁纸竖版/横版原图见 展示N/N-0.png、N-1.png）
+```
+
+> 预设导入：设置 → 主题 → 预设面板 → 导入预设 → 选 `展示N-N.tczp`，自动带图还原整套效果。
 
 ## 卸载
 

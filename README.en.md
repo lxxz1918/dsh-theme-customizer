@@ -10,12 +10,87 @@
 > A theme customizer plugin for the DeepSeek Harness (DSH) web UI. Backgrounds, text colors, borders and details — all adjustable visually, persisted across restarts.
 > Config is stored in localStorage; presets can be exported as `.tczp` files (images included) and shared with any machine.
 
-## Screenshots
+## 🎨 Theme Gallery
 
-| | Main UI | Settings panel |
+Four AI-generated wallpaper themes (alternating dark/bright), each with a **landscape** (main UI background) and a **portrait** (sidebar background) variant, plus matching `.tczp` presets for one-click import (see "Asset Pack" below).
+
+| 🌌 Aurora Nights (dark) | 🌇 Sunset Clouds (bright) |
+|:---:|:---:|
+| ![Aurora](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/aurora.png) | ![Sunset](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sunset.png) |
+| **🌃 Cyber Nights (dark)** | **🌸 Sakura Sky (bright)** |
+| ![Cyber](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/cyber.png) | ![Sakura](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/wallpapers/sakura.png) |
+
+## 📸 Screenshots
+
+Each theme has two variants: **Variant A** = landscape wallpaper (full main-UI background), **Variant B** = portrait wallpaper (independent sidebar background). Each variant has 3 shots: front-1 / front-2 / settings.
+
+<details>
+<summary>🌌 Aurora Nights (dark)</summary>
+
+**Variant A · Landscape**
+
+| Front 1 | Front 2 | Settings |
 |:---:|:---:|:---:|
-| **Preset 0** | ![Preset 0 main UI](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/theme-effect.png) | ![Preset 0 panel](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/settings-panel.png) |
-| **Preset 1** | ![Preset 1 main UI](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-main.png) | ![Preset 1 panel](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/preset-1-panel.png) |
+| ![Aurora A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-1.png) | ![Aurora A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-front-2.png) | ![Aurora A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/0-settings.png) |
+
+**Variant B · Portrait**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Aurora B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-1.png) | ![Aurora B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-front-2.png) | ![Aurora B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/1-aurora/1-settings.png) |
+
+</details>
+
+<details>
+<summary>🌇 Sunset Clouds (bright)</summary>
+
+**Variant A · Landscape**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Sunset A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-1.png) | ![Sunset A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-front-2.png) | ![Sunset A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/0-settings.png) |
+
+**Variant B · Portrait**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Sunset B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-1.png) | ![Sunset B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-front-2.png) | ![Sunset B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/2-sunset/1-settings.png) |
+
+</details>
+
+<details>
+<summary>🌃 Cyber Nights (dark)</summary>
+
+**Variant A · Landscape**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Cyber A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-1.png) | ![Cyber A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-front-2.png) | ![Cyber A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/0-settings.png) |
+
+**Variant B · Portrait**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Cyber B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-1.png) | ![Cyber B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-front-2.png) | ![Cyber B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/3-cyber/1-settings.png) |
+
+</details>
+
+<details>
+<summary>🌸 Sakura Sky (bright)</summary>
+
+**Variant A · Landscape**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Sakura A-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-1.png) | ![Sakura A-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-front-2.png) | ![Sakura A-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/0-settings.png) |
+
+**Variant B · Portrait**
+
+| Front 1 | Front 2 | Settings |
+|:---:|:---:|:---:|
+| ![Sakura B-1](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-1.png) | ![Sakura B-2](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-front-2.png) | ![Sakura B-settings](https://github.com/lxxz1918/dsh-theme-customizer/raw/main/docs/screenshots/4-sakura/1-settings.png) |
+
+</details>
 
 ## Features
 
@@ -84,6 +159,19 @@ Source layout: `optimized/src/` contains 16 fragments (`00_*`~`15_*` + `host.js`
 ## Preset files (.tczp)
 
 Presets panel → "Import preset" and pick a `.tczp` file to restore a whole config (images included — no original files needed). Export each preset via "Export" in the same panel.
+
+## 📦 Asset Pack
+
+The **full assets** for all four themes (original wallpapers + 8 `.tczp` presets + all showcase screenshots) are packed in `展示.7z` attached to [GitHub Releases](https://github.com/lxxz1918/dsh-theme-customizer/releases). Download and extract with 7-Zip:
+
+```
+展示/
+├── readme展示图/          # README screenshots (4 themes × 2 variants × 3 shots)
+├── 展示1/ ~ 展示4/        # Each: original wallpapers (landscape + portrait) + 2 .tczp presets + shots
+└── (wallpaper originals: 展示N/N-0.png, N-1.png)
+```
+
+> Import: Settings → Theme → Presets → Import → pick `展示N-N.tczp` — images included, full effect restored in one click.
 
 ## Uninstall
 
