@@ -101,7 +101,8 @@ Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar*
   - **Independent "when collapsed" settings** for both Main and Sidebar (applied when the sidebar is folded; cross-fade transition on toggle)
 - **Borders module**: color + opacity for all default UI borders/dividers, independently for 5 areas (Main incl. sidebar / Cordis / Composer / Settings / Floating panel)
 - **Text colors module**: 5 categories (Body / Process / Auxiliary / Faded / Accent), shared across light & dark themes, restorable to official defaults
-- **Brand color**: color + opacity for the top-left DeepSeek Harness logo; the "Harness" wordmark can be tinted separately
+- **Brand color**: color + opacity for the top-left DeepSeek Harness logo; the "Harness" wordmark can be tinted separately; the collapsed-sidebar logo (whale icon) has its own independent setting (follows the expanded state by default)
+- **Welcome page tinting**: on the empty state, the whale icon / "探索未至之境" headline / "预览版" badge text / badge background can each be tinted with color + opacity (official colors by default, decoupled from the body text color)
 - **Conversation details**: user bubble / inline code / code block background / code block scrollbar / conversation scrollbar / todo panel collapsed & expanded / "scroll to bottom" button background
 - **Composer**: background, fixed input height (1–10 rows), stats line takeover (9 independent toggles + full expand), command button & menu backgrounds
 - **New session button**: None/Solid/Image style + show text/icon toggles + independent icon/text colors + base color

@@ -38,11 +38,27 @@
       // DeepSeek Harness 标志（左上角品牌行，v0.9.17）：默认品牌蓝 #3964fe + 不透明。
       // 与正文解耦（常驻独立色，不跟随 --dsw-alias-label-primary）；透明度语义同全局（数值大=透明）；
       // 作用于 .hHd-Xa_brand svg（BrandWordmark 的 path 全部 fill:currentColor → 给 svg 设 color 即变色）
-      let brand = { color: '#3964fe', opacity: 0 }
-      // 标志文字 "Harness" 部分单独颜色（v0.9.20）：color null = 跟随标志整体色（brand）；
+      // v1.0.5 收起态：brand.collapsed = { color, opacity }，null = 跟随展开态（默认收起后与展开一致）；
+      //   收起后 logoRow 无 _brand（宽版 wordmark 不渲染），DeepSeek 标志 = 鲸鱼图标 hHd-Xa_railFish
+      //   （fill=currentColor → 同样设 svg color 即变色，F12 实测 DOM 结构）
+      let brand = { color: '#3964fe', opacity: 0, collapsed: { color: null, opacity: null } }
+      // 标志文字 "Harness" 部分单独颜色（v0.9.20）：color null = 官方默认（Badge 蓝底白字，实际渲染白色）；
       // BrandWordmark path 顺序：第 1-10 个 = DeepSeek，第 11-17 个 = Harness（x 坐标 132-178）
       // → CSS `svg path:nth-child(n+11) { fill: 色 }` 直接覆盖 currentColor
       let brandHarness = { color: null, opacity: 0 }
+      // 新会话欢迎页（EmptyHero，v1.0.5）：点「新会话」后的空态界面——鲸鱼图标 + 「探索未至之境」标题 + 「预览版」徽章。
+      // 官方结构（dsh-client-ui-conversation HeroShell，F12 + 源码实测）：
+      //   .pXSMma_fish（鲸鱼 svg，fill=currentColor → 设 svg color 即变色，官方色 label-primary）
+      //   .pXSMma_headlineText（探索未至之境，官方色 label-primary）
+      //   .pXSMma_previewBadge（预览版：文字 color=label-primary-bluish + 背景 state-business-tertiary + 边框 interactive-bg-hover）
+      // 四项各自独立调色 + 透明度（数值大=透明）：fish=鲸鱼 / title=探索未至之境 / badge=预览版文字 / badgeBg=预览版背景
+      // color null = 官方默认（此时 opacity>0 用元素级 color-mix 淡化官方 token，同 convBgs 方案）
+      let hero = {
+        fish: { color: null, opacity: 0 },
+        title: { color: null, opacity: 0 },
+        badge: { color: null, opacity: 0 },
+        badgeBg: { color: null, opacity: 0 },
+      }
       // 框线（v0.9.18）：所有 UI 默认边框/分隔线颜色 + 透明度，5 区域独立。
       // color null=官方默认（此时 opacity>0 用 color-mix 淡化官方色，层级保留）；
       // main=主界面（含侧边栏）/ cordis=Cordis 插件界面 / composer=输入区 / details=设置界面 / float=浮窗面板

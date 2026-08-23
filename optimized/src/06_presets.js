@@ -139,15 +139,34 @@
         }
         // ── 标志：完整覆盖（预设缺该字段 → 回默认，避免残留上一预设）──
         const pb = c.brand && typeof c.brand === 'object' ? c.brand : {}
+        // v1.0.5 收起态 collapsed：null = 跟随展开态；预设缺 → 回默认（跟随展开）
+        const pcb = pb.collapsed
         brand = {
           color: typeof pb.color === 'string' && /^#[0-9a-f]{6}$/i.test(pb.color) ? pb.color : '#3964fe',
           opacity: typeof pb.opacity === 'number' && pb.opacity >= 0 && pb.opacity <= 1 ? pb.opacity : 0,
+          collapsed: pcb && typeof pcb === 'object'
+            ? {
+                color: typeof pcb.color === 'string' && /^#[0-9a-f]{6}$/i.test(pcb.color) ? pcb.color : null,
+                opacity: typeof pcb.opacity === 'number' && pcb.opacity >= 0 && pcb.opacity <= 1 ? pcb.opacity : null,
+              }
+            : { color: null, opacity: null },
         }
         const ph = c.brandHarness && typeof c.brandHarness === 'object' ? c.brandHarness : {}
         brandHarness = {
           color: typeof ph.color === 'string' && /^#[0-9a-f]{6}$/i.test(ph.color) ? ph.color : null,
           opacity: typeof ph.opacity === 'number' && ph.opacity >= 0 && ph.opacity <= 1 ? ph.opacity : 0,
         }
+        // ── 新会话欢迎页四项调色（v1.0.5）：完整覆盖（预设缺该字段 → 回默认全官方，不残留上一预设）──
+        const heroData = c.hero && typeof c.hero === 'object' ? c.hero : {}
+        const nh2 = {}
+        for (const key of ['fish', 'title', 'badge', 'badgeBg']) {
+          const it = heroData[key]
+          nh2[key] = {
+            color: it && typeof it === 'object' && typeof it.color === 'string' && /^#[0-9a-f]{6}$/i.test(it.color) ? it.color : null,
+            opacity: it && typeof it === 'object' && typeof it.opacity === 'number' && it.opacity >= 0 && it.opacity <= 1 ? it.opacity : 0,
+          }
+        }
+        hero = nh2
         // ── 对话区背景：有才应用；颜色键完整覆盖（null=官方默认）+ 透明度键完整覆盖（0-1，缺失回 0）──
         if (c.convBgs && typeof c.convBgs === 'object') {
           const cb = c.convBgs

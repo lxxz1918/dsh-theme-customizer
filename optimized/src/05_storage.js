@@ -101,13 +101,21 @@
           }
           if (typeof c.cordisEntry === 'boolean') cordisEntry = c.cordisEntry
           // DeepSeek Harness 标志（v0.9.17）：旧数据无 brand 字段 → 保持默认（品牌蓝 + 不透明）；字段非法时回默认
+          // v1.0.5 收起态：brand.collapsed = { color, opacity }（null=跟随展开态）；旧数据无 → 默认跟随展开
           if (c.brand && typeof c.brand === 'object') {
+            const cb = c.brand.collapsed
             brand = {
               color: typeof c.brand.color === 'string' && /^#[0-9a-f]{6}$/i.test(c.brand.color) ? c.brand.color : '#3964fe',
               opacity: typeof c.brand.opacity === 'number' && c.brand.opacity >= 0 && c.brand.opacity <= 1 ? c.brand.opacity : 0,
+              collapsed: cb && typeof cb === 'object'
+                ? {
+                    color: typeof cb.color === 'string' && /^#[0-9a-f]{6}$/i.test(cb.color) ? cb.color : null,
+                    opacity: typeof cb.opacity === 'number' && cb.opacity >= 0 && cb.opacity <= 1 ? cb.opacity : null,
+                  }
+                : { color: null, opacity: null },
             }
           }
-          // 标志 "Harness" 单独颜色（v0.9.20）：color null=跟随标志整体；缺失/非法保持默认
+          // 标志 "Harness" 单独颜色（v0.9.20）：color null=官方默认（白）；缺失/非法保持默认
           if (c.brandHarness && typeof c.brandHarness === 'object') {
             brandHarness = {
               color: typeof c.brandHarness.color === 'string' && /^#[0-9a-f]{6}$/i.test(c.brandHarness.color) ? c.brandHarness.color : null,
@@ -131,6 +139,18 @@
           // v0.9.14：命令两按钮透明度字段（addBtnOpacity/cmdMenuOpacity）默认 0；v0.9.15：toBottom/sliderColor/sliderTrackColor/scrollColor 及透明度
           // v1.0.3：对话区 8 项透明度键（bubbleOpacity 等）默认 0
           if (c.convBgs && typeof c.convBgs === 'object') convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0, bubbleOpacity: 0, inlineOpacity: 0, codeOpacity: 0, scrollbarOpacity: 0, chatScrollOpacity: 0, todoCollapsedOpacity: 0, todoExpandedOpacity: 0, toBottomOpacity: 0, ...c.convBgs }
+          // 新会话欢迎页四项调色（v1.0.5）：旧数据无 hero 字段 → 保持默认（全官方）；字段非法回默认
+          if (c.hero && typeof c.hero === 'object') {
+            const nh = {}
+            for (const key of ['fish', 'title', 'badge', 'badgeBg']) {
+              const it = c.hero[key]
+              nh[key] = {
+                color: it && typeof it === 'object' && typeof it.color === 'string' && /^#[0-9a-f]{6}$/i.test(it.color) ? it.color : null,
+                opacity: it && typeof it === 'object' && typeof it.opacity === 'number' && it.opacity >= 0 && it.opacity <= 1 ? it.opacity : 0,
+              }
+            }
+            hero = nh
+          }
           // 兼容旧数据：缺新字段时立即写回一次（补全 cordisEntry 等）；saveNow 不再 notify，这里补一次
           if (typeof c.cordisEntry !== 'boolean' || c.opacitySem !== 4) { saveNow(); notify() }
         } catch (e) { /* 忽略 */ }
@@ -160,13 +180,13 @@
         // 抑制窗口内跳过写入（不更新 lastSavedAt——"最近保存"仍显示上次真实保存时间）
         if (Date.now() < saveSuppressUntil) return
         try {
-          const data = JSON.stringify({ v: 1, opacitySem: 4, appBottomVersion: 1, areas, colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession, brand, brandHarness, borders, detailsPos, detailsDragEnabled, showOpacityHint, composerStatsExpanded, composerFixedHeight, composerRows, composerStatsItems, convBgs })
+          const data = JSON.stringify({ v: 1, opacitySem: 4, appBottomVersion: 1, areas, colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession, brand, brandHarness, hero, borders, detailsPos, detailsDragEnabled, showOpacityHint, composerStatsExpanded, composerFixedHeight, composerRows, composerStatsItems, convBgs })
           window.localStorage.setItem(STORAGE_KEY, data)
           lastSavedAt = Date.now()
         } catch (e) {
           // QuotaExceededError：图片太大，降级只存配置
           try {
-            const slim = JSON.stringify({ v: 1, opacitySem: 4, appBottomVersion: 1, areas: slimAreas(), colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession: newSession.mode === 'image' ? { ...newSession, image: null } : newSession, brand, brandHarness, borders, detailsPos, detailsDragEnabled, showOpacityHint, composerStatsExpanded, composerFixedHeight, composerRows, composerStatsItems, convBgs })
+            const slim = JSON.stringify({ v: 1, opacitySem: 4, appBottomVersion: 1, areas: slimAreas(), colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession: newSession.mode === 'image' ? { ...newSession, image: null } : newSession, brand, brandHarness, hero, borders, detailsPos, detailsDragEnabled, showOpacityHint, composerStatsExpanded, composerFixedHeight, composerRows, composerStatsItems, convBgs })
             window.localStorage.setItem(STORAGE_KEY, slim)
             lastSavedAt = Date.now()
           } catch (e2) { /* 忽略 */ }

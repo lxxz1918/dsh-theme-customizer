@@ -106,12 +106,30 @@
       // 默认品牌蓝 #3964fe + 不透明；与正文解耦（常驻独立色，不跟随正文）；透明度数值大=透明（语义同全局）；
       // 恢复默认：颜色回品牌蓝 + 透明度归零（改动过才显示，两步确认，同主界面底色「恢复默认」模式）
       function BrandEditor() {
-        const { brand, brandHarness } = useStore(['main'])
+        const { brand, brandHarness, hero } = useStore(['main'])
         const bColor = brand.color || '#3964fe'
         const changed = bColor !== '#3964fe' || (brand.opacity != null && brand.opacity !== 0)
-        // Harness 部分单独颜色（v0.9.20）：null=跟随标志整体色；未设置时色块显示品牌蓝（跟随标志）
+        // Harness 部分单独颜色（v0.9.20）：null=官方默认（白）；未设置时色块显示默认白（2026-08-23 修正文案与显示）
         const bh = brandHarness || {}
         const hChanged = !!(bh.color || (bh.opacity != null && bh.opacity > 0))
+        // 未设置时 = 官方默认（Badge 蓝底白字，实际渲染白色）→ 色块显示 #ffffff 与实际一致（2026-08-23 用户修正：原显示品牌蓝误导）
+        const hDefault = '#ffffff'
+        // 新会话界面四项默认色块 = 官方原色（2026-08-23 修正）：与 buildHeroCss 同源读 **static 层**（不被插件
+        //   文字颜色 overrideTokens 覆盖）→ 色块与实际渲染一致（官方黑/深蓝/浅蓝）；按亮/暗主题选对值
+        //   （body 亮 / body[data-ds-dark-theme] 暗，同官方 design-platform 定义链）
+        const offHero = React.useMemo(() => {
+          try {
+            const cs = window.getComputedStyle(document.body)
+            const dark = !!(document.body && document.body.hasAttribute('data-ds-dark-theme'))
+            const read = (t) => { const raw = cs.getPropertyValue(t).trim(); return raw ? (toHex(resolveVarToken(raw, cs)) || null) : null }
+            return {
+              primary: read(dark ? '--dsw-static-neutral-bluish-50' : '--dsw-static-neutral-bluish-1000') || '#0f1115',
+              bluish: read(dark ? '--dsw-static-neutral-bluish-50' : '--dsw-static-blue-900') || '#0e3074',
+              tertiary: read(dark ? '--dsw-static-deepseek-800' : '--dsw-static-deepseek-100') || '#e4edfd',
+            }
+          } catch (e) { return { primary: '#0f1115', bluish: '#0e3074', tertiary: '#e4edfd' } }
+        }, [])
+        // ── 收起态标志（v1.0.5）──
         return React.createElement('div', { style: { marginTop: '8px', paddingTop: '10px', borderTop: '1px solid var(--dsw-alias-border-l1)' } },
           React.createElement('div', { style: { fontSize: '13px', fontWeight: 600, marginBottom: '6px' } }, '标志（DeepSeek Harness）'),
           React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', fontSize: '12px', marginBottom: '6px' } },
@@ -128,14 +146,55 @@
           // ── Harness 单独颜色（v0.9.20）──
           React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', fontSize: '12px', marginTop: '4px' } },
             React.createElement('span', { style: { width: '92px', flex: 'none', fontSize: '13px' } }, 'Harness 颜色:'),
-            React.createElement(ColorField, { value: bh.color || '#3964fe', onChange: (hex) => setBrandHarness({ color: hex }) }),
-            React.createElement('span', { style: { width: '76px', flex: 'none', fontVariantNumeric: 'tabular-nums', color: 'var(--dsw-alias-label-secondary)', fontSize: '12px' } }, hChanged ? '已自定义' : '跟随标志'),
+            React.createElement(ColorField, { value: bh.color || hDefault, onChange: (hex) => setBrandHarness({ color: hex }) }),
+            React.createElement('span', { style: { width: '76px', flex: 'none', fontVariantNumeric: 'tabular-nums', color: 'var(--dsw-alias-label-secondary)', fontSize: '12px' } }, hChanged ? '已自定义' : '默认'),
             hChanged ? React.createElement(ConfirmButton, {
               label: '恢复默认', confirmLabel: '确认恢复默认',
               onConfirm: () => setBrandHarness({ color: null, opacity: 0 }), resetKey: (bh.color || '') + '|' + (bh.opacity == null ? '' : bh.opacity),
             }) : null,
           ),
           React.createElement(OpacitySlider, { value: bh.opacity == null ? 0 : bh.opacity, onChange: (v) => setBrandHarness({ opacity: v }) }),
+          // ── 侧边栏收起后（v1.0.5）：折叠态 logoRow 无 _brand，标志 = 鲸鱼图标 hHd-Xa_railFish（fill=currentColor）；
+          //   collapsed.color/opacity null = 跟随展开态（默认收起后与展开一致）；独立设置后各自覆盖
+          React.createElement('div', { style: { marginTop: '6px', borderTop: '1px dashed var(--dsw-alias-border-l2)', paddingTop: '6px' } },
+            React.createElement('div', { style: { fontSize: '12px', color: 'var(--dsw-alias-label-secondary)', marginBottom: '4px' } }, '侧边栏收起后'),
+            (() => {
+              const bcol = brand.collapsed || {}
+              const showColor = bcol.color || bColor // null=跟随展开态颜色（显示用展开值）
+              const showOpacity = bcol.opacity == null ? (brand.opacity == null ? 0 : brand.opacity) : bcol.opacity // null=跟随展开态透明度
+              const cChanged = !!(bcol.color != null || bcol.opacity != null)
+              return React.createElement(React.Fragment, null,
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', fontSize: '12px', marginBottom: '6px' } },
+                  React.createElement('span', { style: { width: '92px', flex: 'none', fontSize: '13px' } }, '标志颜色:'),
+                  React.createElement(ColorField, { value: showColor, onChange: (hex) => setBrandCollapsed({ color: hex }) }),
+                  React.createElement('span', { style: { width: '76px', flex: 'none', fontVariantNumeric: 'tabular-nums', color: 'var(--dsw-alias-label-secondary)', fontSize: '12px' } }, cChanged ? '已自定义' : '默认'),
+                  cChanged ? React.createElement(ConfirmButton, {
+                    label: '恢复默认', confirmLabel: '确认恢复默认',
+                    onConfirm: () => setBrandCollapsed({ color: null, opacity: null }), resetKey: (bcol.color || '') + '|' + (bcol.opacity == null ? '' : bcol.opacity),
+                  }) : null,
+                ),
+                React.createElement(OpacitySlider, { value: showOpacity, onChange: (v) => setBrandCollapsed({ opacity: v }) }),
+              )
+            })(),
+          ),
+          // ── 新会话界面（v1.0.5）：点「新会话」后的空态页——鲸鱼图标 + 探索未至之境 + 预览版徽章（文字 + 背景）
+          //   官方 HeroShell 结构：_fishHitbox > svg（鲸鱼）/ _headlineText / _previewBadge（color + background）
+          //   四项各自独立：颜色（null=官方默认）+ 透明度（数值大=透明）；未设色 + 透明度>0 → color-mix 淡化官方 token
+            (() => {
+              // ⚠️ 防御（§8.9 铁律）：hero 可能 undefined（旧配置整体替换路径极端场景）→ 兜底空对象
+              const h = hero || {}
+              const hFish = h.fish || {}
+              const hTitle = h.title || {}
+              const hBadge = h.badge || {}
+              const hBg = h.badgeBg || {}
+              return React.createElement('div', { style: { marginTop: '6px', borderTop: '1px dashed var(--dsw-alias-border-l2)', paddingTop: '6px' } },
+                React.createElement('div', { style: { fontSize: '12px', color: 'var(--dsw-alias-label-secondary)', marginBottom: '4px' } }, '新会话界面'),
+                ConvBgRow({ label: '鲸鱼标志', value: hFish.color, onSet: (v) => setHero('fish', { color: v }), opacity: hFish.opacity == null ? 0 : hFish.opacity, onOpacity: (v) => setHero('fish', { opacity: v }), onReset: () => setHero('fish', { color: null, opacity: 0 }), defaultSwatch: offHero.primary }),
+                ConvBgRow({ label: '探索未至之境', value: hTitle.color, onSet: (v) => setHero('title', { color: v }), opacity: hTitle.opacity == null ? 0 : hTitle.opacity, onOpacity: (v) => setHero('title', { opacity: v }), onReset: () => setHero('title', { color: null, opacity: 0 }), defaultSwatch: offHero.primary }),
+                ConvBgRow({ label: '预览版文字', value: hBadge.color, onSet: (v) => setHero('badge', { color: v }), opacity: hBadge.opacity == null ? 0 : hBadge.opacity, onOpacity: (v) => setHero('badge', { opacity: v }), onReset: () => setHero('badge', { color: null, opacity: 0 }), defaultSwatch: offHero.bluish }),
+                ConvBgRow({ label: '预览版背景', value: hBg.color, onSet: (v) => setHero('badgeBg', { color: v }), opacity: hBg.opacity == null ? 0 : hBg.opacity, onOpacity: (v) => setHero('badgeBg', { opacity: v }), onReset: () => setHero('badgeBg', { color: null, opacity: 0 }), defaultSwatch: offHero.tertiary }),
+              )
+            })(),
         )
       }
 

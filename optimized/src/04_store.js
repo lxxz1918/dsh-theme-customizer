@@ -45,6 +45,21 @@
         if (Date.now() < saveSuppressUntil) manualCssRefresh('brand')
         else { notify(); saveNow() }
       }
+      // 标志「侧边栏收起后」独立配置（v1.0.5）：color/opacity null = 跟随展开态；同 setBrand（走 brand style 标签）
+      function setBrandCollapsed(next) {
+        const cur = (brand.collapsed && typeof brand.collapsed === 'object') ? brand.collapsed : {}
+        brand = { ...brand, collapsed: { ...cur, ...next } }
+        if (Date.now() < saveSuppressUntil) manualCssRefresh('brand')
+        else { notify(); saveNow() }
+      }
+      // 新会话欢迎页四项调色（v1.0.5）：key = fish/title/badge/badgeBg；next = { color?, opacity? }
+      // 颜色/透明度拖动走抑制路径（直更 hero style 标签，零 React 渲染）
+      function setHero(key, next) {
+        const cur = (hero[key] && typeof hero[key] === 'object') ? hero[key] : {}
+        hero = { ...hero, [key]: { ...cur, ...next } }
+        if (Date.now() < saveSuppressUntil) manualCssRefresh('hero')
+        else { notify(); saveNow() }
+      }
       // 框线（v0.9.18）：颜色/透明度拖动走抑制路径（直更 borders style 标签，零 React 渲染）
       function setBorder(area, next) {
         borders = { ...borders, [area]: { ...(borders[area] || {}), ...next } }
@@ -130,8 +145,14 @@
           conversation: emptyArea(),
         }
         newSession = { showText: true, showIcon: true, mode: 'none', color: '#ffffff', opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0, image: null, iconColor: null, textColor: null }
-        brand = { color: '#3964fe', opacity: 0 }
+        brand = { color: '#3964fe', opacity: 0, collapsed: { color: null, opacity: null } }
         brandHarness = { color: null, opacity: 0 }
+        hero = {
+          fish: { color: null, opacity: 0 },
+          title: { color: null, opacity: 0 },
+          badge: { color: null, opacity: 0 },
+          badgeBg: { color: null, opacity: 0 },
+        }
         borders = { main: { color: null, opacity: 0 }, cordis: { color: null, opacity: 0 }, composer: { color: null, opacity: 0 }, details: { color: null, opacity: 0 }, float: { color: null, opacity: 0 }, newSession: { color: null, opacity: 0 } }
         colors = { main: null, process: null, aux: null, faded: null, accent: null }
         convBgs = { bubble: null, inline: null, code: null, scrollbar: null, chatScroll: null, todoCollapsed: null, todoExpanded: null, addBtn: null, cmdMenu: null, addBtnOpacity: 0, cmdMenuOpacity: 0, toBottom: null, sliderColor: null, sliderOpacity: 0, sliderTrackColor: null, sliderTrackOpacity: 0, scrollColor: null, scrollOpacity: 0, bubbleOpacity: 0, inlineOpacity: 0, codeOpacity: 0, scrollbarOpacity: 0, chatScrollOpacity: 0, todoCollapsedOpacity: 0, todoExpandedOpacity: 0, toBottomOpacity: 0 }
@@ -175,5 +196,5 @@
           for (const c of chs) { const s = listeners[c]; if (s) s.add(fn) }
           return () => { for (const c of chs) { const s = listeners[c]; if (s) s.delete(fn) } }
         }, [])
-        return { floatVisible, floatPos, cordisEntry, floatModules, floatShowReset, areas, sidebarInfo, colors, officialColors, lastSavedAt, newSession, brand, brandHarness, borders, detailsPos, detailsDragEnabled, showOpacityHint, composerStatsExpanded, composerFixedHeight, composerRows, composerStatsItems, composerCardRatio, cordisCardRatio, convBgs }
+        return { floatVisible, floatPos, cordisEntry, floatModules, floatShowReset, areas, sidebarInfo, colors, officialColors, lastSavedAt, newSession, brand, brandHarness, hero, borders, detailsPos, detailsDragEnabled, showOpacityHint, composerStatsExpanded, composerFixedHeight, composerRows, composerStatsItems, composerCardRatio, cordisCardRatio, convBgs }
       }

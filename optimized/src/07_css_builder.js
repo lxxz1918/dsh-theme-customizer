@@ -208,8 +208,10 @@
       }
       function buildBrandCss() {
         // DeepSeek Harness 标志（v0.9.17）：左上角品牌行 wordmark（BrandWordmark svg，path 全部 fill:currentColor → 给 svg 设 color 即变色）。
-        // 作用于 logoRow 内 [_brand] 的 svg（稳定后缀；限定祖先防误伤其他 _brand 元素）；折叠态 brand 不渲染（wide 才显示），无副作用。
-        // 透明度：数值大=透明 → alpha = 1-opacity（rgba 直接作用于 color，无需 color-mix——用户色非 token）
+        // 作用于 logoRow 内 [_brand] 的 svg（稳定后缀；限定祖先防误伤其他 _brand 元素）；折叠态 brand 不渲染（wide 才显示）。
+        // v1.0.5 收起态：折叠后 logoRow 无 _brand，DeepSeek 标志 = 鲸鱼图标 hHd-Xa_railFish（F12 实测，
+        //   path fill=currentColor → 同样设 svg color 即变色）；brand.collapsed.color/opacity null = 跟随展开态（默认一致）。
+        //   透明度：数值大=透明 → alpha = 1-opacity（rgba 直接作用于 color，无需 color-mix——用户色非 token）
         const cssParts = []
         const bc = brand.color || '#3964fe'
         const ba = Math.max(0, Math.min(1, 1 - (brand.opacity == null ? 0 : brand.opacity)))
@@ -218,14 +220,24 @@
           return 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + ba + ')'
         })()
         cssParts.push('[class*="_logoRow"] [class*="_brand"] svg { color: ' + color + ' !important; }')
+        // ── 收起态标志（v1.0.5）：折叠容器带 _collapsed class（稳定后缀）；railFish 在 logoRow 内
+        const bcCol = brand.collapsed || {}
+        const cc = bcCol.color || bc // null=跟随展开态颜色
+        const ca = Math.max(0, Math.min(1, 1 - (bcCol.opacity == null ? (brand.opacity == null ? 0 : brand.opacity) : bcCol.opacity))) // null=跟随展开态透明度
+        const cColor = ca >= 1 ? cc : (() => {
+          const rgb = parseRgb(cc)
+          return 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + ca + ')'
+        })()
+        cssParts.push('[class*="_collapsed"] [class*="_logoRow"] [class*="_railFish"] { color: ' + cColor + ' !important; }')
         // 标志文字 "Harness" 部分单独颜色（v0.9.20）：实际渲染的 BrandWordmark（dsh 内部版）结构 =
         // svg > path×9(DeepSeek) + g[whale-clip](鲸鱼图标) + rect(129,52 = Harness 徽章背景) + g[badge-clip](Harness 文字×7)。
         // Harness 文字 = badge-clip 的 g 内 path → `svg g[clip-path*="badge"] path`（属性值含 badge，精确区分 whale g）。
-        // fill 直接覆盖 currentColor。color null 时：opacity>0 → 淡化**标志整体色**（跟随标志 + 透明度也生效）
+        // fill 直接覆盖 currentColor。color null 时：opacity>0 → 淡化**官方默认白**（Badge 蓝底白字；2026-08-23 修正：原淡化品牌蓝与默认白不符）
         const bh = brandHarness || {}
         const bhOp = bh.opacity == null ? 0 : bh.opacity
         if (bh.color || bhOp > 0) {
-          const base = bh.color || brand.color || '#3964fe'
+          // 2026-08-23 修正：未设色时 base = 官方默认白 #ffffff（Badge 蓝底白字），不再淡化品牌蓝——与设置面板色块显示一致
+          const base = bh.color || '#ffffff'
           const bha = Math.max(0, Math.min(1, 1 - bhOp))
           const bhrgb = parseRgb(base)
           const hColor = bha >= 1 ? base : 'rgba(' + bhrgb[0] + ',' + bhrgb[1] + ',' + bhrgb[2] + ',' + bha + ')'
@@ -474,7 +486,67 @@
         }
         return cssParts.join(' ')
       }
-      // 完整 token 覆盖集合（v0.9.15 抽函数）：背景（主界面/侧边栏透明化）+ 文字颜色 + 对话区气泡/行内代码/代码块。
+      // 新会话欢迎页四项调色（v1.0.5）：鲸鱼图标 / 探索未至之境 / 预览版文字 / 预览版背景。
+      // 官方结构（dsh-client-ui-conversation HeroShell，F12 + 源码实测）：
+      //   .pXSMma_fishHitbox 包 .pXSMma_fish（svg，fill=currentColor → 设 svg color 即变色，官方 label-primary）
+      //   .pXSMma_headlineText（探索未至之境，官方 label-primary）
+      //   .pXSMma_previewBadge（预览版：color=label-primary-bluish + background=state-business-tertiary + border 不动）
+      // 选择器用稳定后缀 _fishHitbox（祖先，内部唯一 svg）/ _headlineText / _previewBadge（官方 CSS Module 哈希前缀可变，后缀稳定）
+      // 透明度（数值大=透明 → alpha = 1-opacity）：设色 → rgba 合成；未设色 + 透明度>0 → 元素级 color-mix 淡化官方 token
+      //   （不覆盖 token——覆盖值里 var 自身循环失效，同 convBgs bubble/inline/code 方案）
+      // ⚠️ 2026-08-23 解除正文关联：fish/title 官方用 label-primary——该 token 会被插件「文字颜色」功能覆盖（overrideTokens
+      //   写到 body），未设置时继承到的是**被覆盖的正文色**（用户设蓝 → 鲸鱼/标题变蓝，用户反馈"与正文有联系"）。
+      //   修复：未设置时显式注入官方原色（亮 body → static-neutral-bluish-1000 近黑 / 暗 body[data-ds-dark-theme] →
+      //   static-neutral-bluish-50 近白，同官方 label-primary 定义链），与正文文字颜色**彻底解耦**。
+      function buildHeroCss() {
+        const cssParts = []
+        // fish / title 官方原色（亮/暗双主题，同官方 label-primary 定义；static 层不被 overrideTokens 覆盖）
+        const mkColor = (sel, it, officialToken, officialDarkToken) => {
+          if (!it) return
+          const op = it.opacity == null ? 0 : it.opacity
+          if (it.color) {
+            const a = Math.max(0, Math.min(1, 1 - op))
+            const rgb = parseRgb(it.color)
+            const c = a >= 1 ? it.color : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + a + ')'
+            cssParts.push(sel + ' { color: ' + c + ' !important; }')
+          } else if (op > 0) {
+            const pct = Math.round(Math.max(0, Math.min(1, 1 - op)) * 100) + '%'
+            cssParts.push(sel + ' { color: color-mix(in srgb, ' + officialToken + ' ' + pct + ', transparent) !important; }')
+            cssParts.push('body[data-ds-dark-theme] ' + sel + ' { color: color-mix(in srgb, ' + officialDarkToken + ' ' + pct + ', transparent) !important; }')
+          } else {
+            // 未设置：显式固定官方原色（独立于正文文字颜色覆盖）→ 双主题规则
+            cssParts.push(sel + ' { color: ' + officialToken + ' !important; }')
+            cssParts.push('body[data-ds-dark-theme] ' + sel + ' { color: ' + officialDarkToken + ' !important; }')
+          }
+        }
+        const mkBg = (sel, it, officialToken, officialDarkToken) => {
+          if (!it) return
+          const op = it.opacity == null ? 0 : it.opacity
+          if (it.color) {
+            const a = Math.max(0, Math.min(1, 1 - op))
+            const rgb = parseRgb(it.color)
+            const c = a >= 1 ? it.color : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + a + ')'
+            cssParts.push(sel + ' { background-color: ' + c + ' !important; }')
+          } else if (op > 0) {
+            const pct = Math.round(Math.max(0, Math.min(1, 1 - op)) * 100) + '%'
+            cssParts.push(sel + ' { background-color: color-mix(in srgb, ' + officialToken + ' ' + pct + ', transparent) !important; }')
+            if (officialDarkToken) cssParts.push('body[data-ds-dark-theme] ' + sel + ' { background-color: color-mix(in srgb, ' + officialDarkToken + ' ' + pct + ', transparent) !important; }')
+          } else if (officialDarkToken) {
+            // 未设置：显式固定官方原色（亮/暗双主题）
+            cssParts.push(sel + ' { background-color: ' + officialToken + ' !important; }')
+            cssParts.push('body[data-ds-dark-theme] ' + sel + ' { background-color: ' + officialDarkToken + ' !important; }')
+          }
+        }
+        // 鲸鱼图标：fishHitbox 是稳定祖先（官方 class 唯一后缀），内部唯一 svg 就是鲸鱼
+        mkColor('[class*="_fishHitbox"] svg', hero.fish, 'var(--dsw-static-neutral-bluish-1000)', 'var(--dsw-static-neutral-bluish-50)')
+        // 探索未至之境
+        mkColor('[class*="_headlineText"]', hero.title, 'var(--dsw-static-neutral-bluish-1000)', 'var(--dsw-static-neutral-bluish-50)')
+        // 预览版文字（color）：label-primary-bluish 官方亮=blue-900 / 暗=neutral-bluish-50（token 不被文字颜色覆盖，双主题固定保主题正确）
+        mkColor('[class*="_previewBadge"]', hero.badge, 'var(--dsw-static-blue-900)', 'var(--dsw-static-neutral-bluish-50)')
+        // 预览版背景（background-color）：state-business-tertiary 官方亮=deepseek-100 / 暗=deepseek-800
+        mkBg('[class*="_previewBadge"]', hero.badgeBg, 'var(--dsw-static-deepseek-100)', 'var(--dsw-static-deepseek-800)')
+        return cssParts.join(' ')
+      }
       // AreaCss useEffect（React 路径）与 refreshConvTokens（拖动抑制期直更）共用——保证两路径覆盖同一完整集合，
       // 避免 overrideTokens 替换 namespace 时顶掉彼此（"调 V 按钮主界面背景失效"事故根因）
       function buildThemeTokens() {
@@ -561,6 +633,7 @@
             setStyle('details', buildDetailsCss())
             setStyle('sidebar', buildSidebarCss())
             setStyle('brand', buildBrandCss())
+            setStyle('hero', buildHeroCss())
             setStyle('borders', buildBordersCss())
             setStyle('ns', buildNewSessionCss())
             setStyle('lift', buildLiftCss())
@@ -576,6 +649,7 @@
           else if (id === 'details') setStyle('details', buildDetailsCss())
           else if (id === 'sidebar') { setStyle('sidebar', buildSidebarCss()); setStyle('lift', buildLiftCss()) }
           else if (id === 'brand') setStyle('brand', buildBrandCss())
+          else if (id === 'hero') setStyle('hero', buildHeroCss())
           else if (id === 'borders') setStyle('borders', buildBordersCss())
           else if (id === 'ns') setStyle('ns', buildNewSessionCss())
           else if (id === 'cordis') setStyle('cordis', buildCordisCss())
@@ -587,13 +661,19 @@
 
       function AreaCss() {
         const { areas, sidebarInfo, floatVisible, newSession, composerFixedHeight, composerRows, convBgs } = useStore()
+        // 侧边栏就绪门控（2026-08-23 修复偶发 bug）：首次挂载时侧边栏可能尚未渲染（插件 CSS 注入先于侧边栏 DOM），
+        // detectSidebar 返回 null → sidebarInfo 保持 null → 主界面「不包含侧边栏」偏移量 sbW=0（背景铺到侧边栏区域）
+        // + 新会话选区比例 fallback 错（用户反馈两个偶发 bug：刷新后正常 = 第二次加载 DOM 已就绪）。
+        // 修复：sidebarReady ref 标记检测成功；成功前，MutationObserver 的 childList 变化也触发重试（零定时器）。
+        // setSidebarInfo 值比较保证检测成功后的冗余 refresh 零渲染（v1.0.0 优化保留）
+        const sidebarReady = React.useRef(false)
         React.useEffect(() => {
           detectColors()
           const refresh = () => {
             const info = detectSidebar()
-            if (info) setSidebarInfo(info)
+            if (info) { sidebarReady.current = true; setSidebarInfo(info) }
           }
-          if (!sidebarInfo) refresh()
+          if (!sidebarInfo && !sidebarReady.current) refresh()
           // 网页变化（窗口缩放/布局变动）时重新检测侧边栏比例，保证选区比例始终跟手
           window.addEventListener('resize', refresh)
           // v1.0.4 折叠态监听：官方折叠/展开会增删 hHd-Xa_collapsed class（F12 实测稳定后缀）。
@@ -606,6 +686,9 @@
               const nowCollapsed = !!(document.querySelector('[class*="_collapsed"]'))
               if (nowCollapsed !== lastCollapsed) {
                 lastCollapsed = nowCollapsed
+                refresh()
+              } else if (!sidebarReady.current) {
+                // 侧边栏尚未检测到：DOM 增删（childList）可能正是侧边栏渲染完成 → 重试（检测成功后不再走这里）
                 refresh()
               }
             })
@@ -796,6 +879,7 @@
         const detailsCss = React.useMemo(() => buildDetailsCss(), [areas.details, baseBg, detailsPos])
         const sidebarCss = React.useMemo(() => buildSidebarCss(), [areas.sidebar, sidebarInfo])
         const brandCss = React.useMemo(() => buildBrandCss(), [brand, brandHarness])
+        const heroCss = React.useMemo(() => buildHeroCss(), [hero])
         const bordersCss = React.useMemo(() => buildBordersCss(), [borders])
         const newSessionCss = React.useMemo(() => buildNewSessionCss(), [newSession])
         // v1.0.4：liftCss 依赖同加收起态图片（收起态图片时 logoRow 提升）
@@ -812,6 +896,9 @@
           React.createElement('style', { 'data-thmcz-details': true }, detailsCss),
           React.createElement('style', { 'data-thmcz-sidebar': true }, sidebarCss),
           React.createElement('style', { 'data-thmcz-brand': true }, brandCss),
+          // ⚠️ hero 标签无条件渲染（2026-08-23 修复"第一次调色不实时"）：默认 heroCss 为空串，若条件渲染则
+          //   <style data-thmcz-hero> 不存在 → 拖动抑制期 manualCssRefresh('hero') 找不到标签写不进去 → 松手 notify 后才生成标签 → 第二次才实时
+          React.createElement('style', { 'data-thmcz-hero': true }, heroCss),
           bordersCss ? React.createElement('style', { 'data-thmcz-borders': true }, bordersCss) : null,
           React.createElement('style', { 'data-thmcz-ns': true }, newSessionCss),
           React.createElement('style', { 'data-thmcz-lift': true }, liftCss),

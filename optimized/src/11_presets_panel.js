@@ -98,7 +98,7 @@
           }
           // ⚠️ 必须深拷贝快照（JSON 往返）：data 里的 areas/colors 若直接引用当前对象，
           // 保存后修改设置会让已存预设"跟随"变化（应用时读到的是当前设置而非保存快照）
-          const data = JSON.parse(JSON.stringify({ v: 1, opacitySem: 4, areas, colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession, brand, brandHarness, borders, detailsPos, detailsDragEnabled, showOpacityHint, convBgs }))
+          const data = JSON.parse(JSON.stringify({ v: 1, opacitySem: 4, areas, colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession, brand, brandHarness, hero, borders, detailsPos, detailsDragEnabled, showOpacityHint, convBgs }))
           const newItem = { id: String(Date.now()) + '-' + presets.length, name, savedAt: Date.now(), data }
           presets = [...presets, newItem]
           savePresets().then(() => {
@@ -123,7 +123,7 @@
           if (!oldItem) { setConflict(null); return }
           if (conflict.kind === 'save') {
             // 保存覆盖：用当前设置生成深拷贝快照
-            const data = JSON.parse(JSON.stringify({ v: 1, opacitySem: 4, areas, colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession, brand, brandHarness, borders, detailsPos, detailsDragEnabled, showOpacityHint, convBgs }))
+            const data = JSON.parse(JSON.stringify({ v: 1, opacitySem: 4, areas, colors, cordisEntry, floatModules, floatShowReset, floatPos, floatVisible, newSession, brand, brandHarness, hero, borders, detailsPos, detailsDragEnabled, showOpacityHint, convBgs }))
             presets = presets.map((p) => p.id === targetId ? { ...p, name, savedAt: Date.now(), data } : p)
             savePresets().then(() => {
               setConflict(null)
