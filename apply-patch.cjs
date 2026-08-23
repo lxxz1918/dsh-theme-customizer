@@ -1,4 +1,4 @@
-// apply-patch.cjs —— 官方 Cordis 按钮常驻补丁一键安装/撤销（dsh-theme-customizer 随包脚本）
+// apply-patch.cjs —— Cordis 按钮常驻补丁一键安装/撤销（dsh-theme-customizer 随包脚本）
 // 背景：官方 dsh-client-ui-cordis 在"没有任何动态插件活动"时 return null（按钮隐藏）。
 //       本补丁让按钮显隐受 window.__TCZ_HIDE_OFFICIAL_CORDIS 控制（主题插件「Cordis 按钮常驻」开关使用）。
 // ⚠️  DSH 升级会覆盖官方包 → 升级后需重跑本脚本。

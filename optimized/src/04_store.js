@@ -64,8 +64,9 @@
       function setDetailsDragEnabled(v) { detailsDragEnabled = v; notify(); saveNow() }
       // ⚠️ 值未变跳过（2026-08-22 梳理修复）：resize/observer 每触发都调用，值没变也 notify 会全量重渲染
       //   （Cordis 面板 MutationObserver 监听整个 body 节点增删 → 对话流每挂载一条消息都触发一次）
+      // v1.0.4：collapsed 折叠态也参与比较（折叠切换触发 CSS 重建）
       function setSidebarInfo(next) {
-        if (sidebarInfo && next && sidebarInfo.selector === next.selector && sidebarInfo.ratio === next.ratio && sidebarInfo.width === next.width && sidebarInfo.height === next.height) return
+        if (sidebarInfo && next && sidebarInfo.selector === next.selector && sidebarInfo.ratio === next.ratio && sidebarInfo.width === next.width && sidebarInfo.height === next.height && sidebarInfo.collapsed === next.collapsed) return
         sidebarInfo = next
         notify()
       }
@@ -120,8 +121,8 @@
         cordisEntry = true
         applyCordisEntryFlag()
         areas = {
-          app: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 },
-          sidebar: { ...emptyArea(), opacity: 0 },
+          app: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0, collapsedSidebar: emptyArea() },
+          sidebar: { ...emptyArea(), opacity: 0, collapsed: emptyArea() },
           composer: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 },
           details: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 },
           float: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 },

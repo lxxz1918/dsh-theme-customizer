@@ -98,6 +98,7 @@ Each theme has two modes (presets `-0` / `-1`): **display area includes sidebar*
   - Each area: None / Solid color / Image (with crop & selection) + opacity (**larger value = more transparent**) + base color (independent layer)
   - Main background supports "include sidebar / exclude sidebar" display area toggle
   - Sidebar image fades out directly via mask — never covers the top UI or the settings panel
+  - **Independent "when collapsed" settings** for both Main and Sidebar (applied when the sidebar is folded; cross-fade transition on toggle)
 - **Borders module**: color + opacity for all default UI borders/dividers, independently for 5 areas (Main incl. sidebar / Cordis / Composer / Settings / Floating panel)
 - **Text colors module**: 5 categories (Body / Process / Auxiliary / Faded / Accent), shared across light & dark themes, restorable to official defaults
 - **Brand color**: color + opacity for the top-left DeepSeek Harness logo; the "Harness" wordmark can be tinted separately
@@ -130,7 +131,7 @@ Then **restart dsh web** for it to take effect. Verify: Settings → Theme shoul
 
 ## Persistent Cordis button (optional)
 
-The "Cordis button always visible" toggle in Theme settings **requires a patch to the official dsh-client-ui-cordis package**; without the patch the toggle has no effect. One-click install:
+The "Cordis button always visible" toggle in Theme settings **requires patching the dsh-client-ui-cordis package** (provided by this plugin's `apply-patch.cjs`); without the patch the toggle has no effect. Install:
 
 ```bash
 node apply-patch.cjs           # apply patch (auto backup)

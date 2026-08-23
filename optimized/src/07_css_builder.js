@@ -15,6 +15,13 @@
         if (areas.sidebar.mode === 'image' && areas.sidebar.image && sidebarInfo && sidebarInfo.selector) {
           parts.push(sidebarInfo.selector + ' { --tcz-sidebar-img: url("' + areas.sidebar.image.dataURI + '"); }')
         }
+        // v1.0.4 收起态侧边栏图片变量：用收起态选择器（自身含 collapsed class 或后代含）
+        const sc = areas.sidebar.collapsed
+        if (sc && sc.mode === 'image' && sc.image && sidebarInfo && sidebarInfo.selector) {
+          const sel = sidebarInfo.selector
+          parts.push(sel + '[class*="_collapsed"] { --tcz-sidebar-img: url("' + sc.image.dataURI + '"); }')
+          parts.push(sel + ':has([class*="_collapsed"]) { --tcz-sidebar-img: url("' + sc.image.dataURI + '"); }')
+        }
         if (areas.composer.mode === 'image' && areas.composer.image) {
           parts.push('[data-composer-card] { --tcz-composer-img: url("' + areas.composer.image.dataURI + '"); }')
         }
@@ -39,33 +46,41 @@
       function buildAppCss() {
         // 主界面（html,body 背景）。底色 = 最底层垫色（常驻仅颜色）；模式内容（纯色渐变/图片）叠在其上。
         // 图片直接拼 dataURI（不用 var()：多层 background-image 里 var() 替换失效 → 图片不显示）；图片已在选图时 downscale 体积小
+        // v1.0.4 收起态：侧边栏折叠（hHd-Xa_collapsed）时用 areas.app.collapsedSidebar 独立配置（默认 none 官方原样）；
+        //   折叠 class 在侧边栏内层 → 主界面用 :has() 从根选择。展开态用 areas.app + includeSidebar 偏移逻辑（不变）
         const cssParts = []
+        // 折叠判定：html 内存在 collapsed 侧边栏（收起时切换）
+        const collapsedNow = sidebarInfo && sidebarInfo.collapsed
+        const appArea = collapsedNow ? (areas.app.collapsedSidebar || { mode: 'none', opacity: 0 }) : areas.app
+        const useInclude = appArea.includeSidebar !== false
+        // 收起态宽度 = 侧边栏收起后的实测宽度（默认窄栏 ~50px；未检测到时用 52 近似）
+        const sbW = collapsedNow
+          ? (sidebarInfo.width > 0 && sidebarInfo.width < 120 ? Math.round(sidebarInfo.width) : 52)
+          : (sidebarInfo && sidebarInfo.width ? Math.round(sidebarInfo.width) : 0)
         let appBottom = null
-        if (areas.app.bottomColor) {
-          const abRgb = parseRgb(areas.app.bottomColor)
+        if (appArea.bottomColor) {
+          const abRgb = parseRgb(appArea.bottomColor)
           appBottom = 'rgb(' + abRgb[0] + ',' + abRgb[1] + ',' + abRgb[2] + ')'
         }
-        const appImg = areas.app.image
-        const appInclude = areas.app.includeSidebar !== false
-        if (areas.app.mode === 'image' && appImg) {
-          const op = areas.app.opacity == null ? 0 : areas.app.opacity
-          const layerRgb = appBottom ? parseRgb(areas.app.bottomColor) : parseRgb(baseBg)
+        const appImg = appArea.image
+        const appInclude = useInclude
+        if (appArea.mode === 'image' && appImg) {
+          const op = appArea.opacity == null ? 0 : appArea.opacity
+          const layerRgb = appBottom ? parseRgb(appArea.bottomColor) : parseRgb(baseBg)
           const grad = 'linear-gradient(rgba(' + layerRgb[0] + ',' + layerRgb[1] + ',' + layerRgb[2] + ',' + op + '), rgba(' + layerRgb[0] + ',' + layerRgb[1] + ',' + layerRgb[2] + ',' + op + '))'
           const url = 'url("' + appImg.dataURI + '")'
-          if (!appInclude && sidebarInfo && sidebarInfo.width) {
-            const sbW = Math.round(sidebarInfo.width)
+          if (!appInclude && sbW > 0) {
             const mainW = Math.max(100, Math.round(window.innerWidth - sbW))
             cssParts.push('html, body { background-color: ' + (appBottom || baseBg) + ' !important; background-image: ' + grad + ', ' + url + ' !important; background-size: ' + mainW + 'px 100%, ' + mainW + 'px 100% !important; background-position: ' + sbW + 'px center, ' + sbW + 'px center !important; background-repeat: no-repeat, no-repeat !important; }')
           } else {
             cssParts.push('html, body { background-color: ' + (appBottom || 'transparent') + ' !important; background-image: ' + grad + ', ' + url + ' !important; background-size: cover, cover !important; background-position: center !important; background-repeat: no-repeat !important; background-attachment: fixed !important; }')
           }
-        } else if (areas.app.mode === 'color') {
-          const a = 1 - (areas.app.opacity == null ? 0 : areas.app.opacity)
-          const rgbC = parseRgb(areas.app.color)
+        } else if (appArea.mode === 'color') {
+          const a = 1 - (appArea.opacity == null ? 0 : appArea.opacity)
+          const rgbC = parseRgb(appArea.color)
           const bg = appBottom || baseBg
           const grad = 'linear-gradient(rgba(' + rgbC[0] + ',' + rgbC[1] + ',' + rgbC[2] + ',' + a + '), rgba(' + rgbC[0] + ',' + rgbC[1] + ',' + rgbC[2] + ',' + a + '))'
-          if (!appInclude && sidebarInfo && sidebarInfo.width) {
-            const sbW = Math.round(sidebarInfo.width)
+          if (!appInclude && sbW > 0) {
             const mainW = Math.max(100, Math.round(window.innerWidth - sbW))
             cssParts.push('html, body { background-color: ' + bg + ' !important; background-image: ' + grad + ' !important; background-size: ' + mainW + 'px 100% !important; background-position: ' + sbW + 'px center !important; background-repeat: no-repeat !important; }')
           } else {
@@ -76,6 +91,7 @@
           // 曾做 html,body 垫色（v0.9.2），但官方 _frame/三列等容器自带不透明背景盖住垫色看不到，
           // 且侧边栏「无」模式透出下层会透出垫色 → "侧边栏变红"（连锁问题）。
           // 主界面「无」模式已不显示底色选项（09 AreaEditor）；旧配置残留 bottomColor 也不再垫色。
+          // v1.0.4 收起态 none：同样零注入（官方原样）——但收起态无垫色会露出官方白底（无主界面图时正常）
         }
         return cssParts.join(' ')
       }
@@ -148,28 +164,46 @@
       }
       function buildSidebarCss() {
         // 侧边栏（底色 + 图片/纯色/无）；三层独立架构（层1 body / 层2 底色 / 层3 ::before 图片）
+        // v1.0.4 收起态：折叠（官方 hHd-Xa_collapsed class，F12 实测）时用 areas.sidebar.collapsed 独立配置；
+        //   默认 mode:'none' = 官方原样（背景层 opacity:0）。切换用 transition 淡入淡出（容器/伪元素 opacity 过渡）。
+        //   折叠 class 在内层 hHd-Xa_root 上（sidebarInfo.selector 是外层列容器）→ 用 :has() 区分两态
         const cssParts = []
-        let bottomColor = null
-        if (areas.sidebar.bottomEnabled && areas.sidebar.bottomColor) {
-          const ba = 1 - (areas.sidebar.bottomOpacity == null ? 0 : areas.sidebar.bottomOpacity)
-          const [br, bg, bb] = parseRgb(areas.sidebar.bottomColor)
-          bottomColor = 'rgba(' + br + ',' + bg + ',' + bb + ',' + ba + ')'
-        }
-        if (areas.sidebar.mode === 'image' && areas.sidebar.image && sidebarInfo && sidebarInfo.selector) {
-          const maskAlpha = 1 - (areas.sidebar.opacity == null ? 0 : areas.sidebar.opacity)
+        const sel = sidebarInfo && sidebarInfo.selector ? sidebarInfo.selector : null
+        // 收起态选择器：collapsed class 可能在容器自身（兜底分支选中 hHd-Xa_root）或后代（列容器选中 _sidebarCol）
+        const colSel = sel ? sel + '[class*="_collapsed"], ' + sel + ':has([class*="_collapsed"])' : null
+        // 展开态选择器：非折叠才生效（:not 双条件）——与收起规则互斥，防折叠后展开规则残留
+        const expSel = sel ? sel + ':not([class*="_collapsed"]):not(:has([class*="_collapsed"]))' : null
+        if (!sel) return cssParts.join(' ')
+        const mk = (area, isCollapsed) => {
+          const out = []
+          const bottomColor = (() => {
+            if (!area.bottomEnabled || !area.bottomColor) return null
+            const ba = 1 - (area.bottomOpacity == null ? 0 : area.bottomOpacity)
+            const [br, bg, bb] = parseRgb(area.bottomColor)
+            return 'rgba(' + br + ',' + bg + ',' + bb + ',' + ba + ')'
+          })()
+          // 容器：底色 + 过渡（背景色淡入淡出；收起态默认官方原样 = 透明底）
           const bottom = bottomColor || 'transparent'
-          cssParts.push(sidebarInfo.selector + ' { position: relative !important; background-color: ' + bottom + ' !important; }')
-          cssParts.push(sidebarInfo.selector + '::before { content: "" !important; position: absolute !important; inset: 0 !important; pointer-events: none !important; background-image: var(--tcz-sidebar-img) !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; -webkit-mask-image: linear-gradient(rgba(0,0,0,' + maskAlpha + '), rgba(0,0,0,' + maskAlpha + ')) !important; mask-image: linear-gradient(rgba(0,0,0,' + maskAlpha + '), rgba(0,0,0,' + maskAlpha + ')) !important; }')
+          out.push((isCollapsed ? colSel : expSel) + ' { position: relative !important; background-color: ' + bottom + ' !important; transition: background-color 0.35s ease !important; }')
+          if (area.mode === 'image' && area.image) {
+            const maskAlpha = 1 - (area.opacity == null ? 0 : area.opacity)
+            out.push((isCollapsed ? colSel : expSel) + '::before { content: "" !important; position: absolute !important; inset: 0 !important; pointer-events: none !important; background-image: var(--tcz-sidebar-img) !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; -webkit-mask-image: linear-gradient(rgba(0,0,0,' + maskAlpha + '), rgba(0,0,0,' + maskAlpha + ')) !important; mask-image: linear-gradient(rgba(0,0,0,' + maskAlpha + '), rgba(0,0,0,' + maskAlpha + ')) !important; opacity: 1 !important; transition: opacity 0.35s ease !important; }')
+          } else if (area.mode === 'color') {
+            // ⚠️ 纯色用**容器 background**（不用 ::before）：容器背景天然在内容之下，永不盖 UI（v20 架构）。
+            // v1.0.4 重构曾改 ::before → 盖住所有 UI（回归，用户反馈"纯色模式上边 UI 在颜色层下"）→ 改回容器背景。
+            const a = 1 - (area.opacity == null ? 0 : area.opacity)
+            const [r, g, b] = parseRgb(area.color)
+            out.push((isCollapsed ? colSel : expSel) + ' { background-color: ' + bottom + ' !important; background-image: linear-gradient(rgba(' + r + ',' + g + ',' + b + ',' + a + '), rgba(' + r + ',' + g + ',' + b + ',' + a + ')) !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; }')
+          } else {
+            // 无/透明：背景层淡出（opacity 0），官方原样透出
+            out.push((isCollapsed ? colSel : expSel) + '::before { content: "" !important; position: absolute !important; inset: 0 !important; pointer-events: none !important; opacity: 0 !important; transition: opacity 0.35s ease !important; }')
+          }
+          return out
         }
-        if (areas.sidebar.mode === 'color' && sidebarInfo && sidebarInfo.selector) {
-          const a = 1 - (areas.sidebar.opacity == null ? 0 : areas.sidebar.opacity)
-          const [r, g, b] = parseRgb(areas.sidebar.color)
-          const bottom = bottomColor || 'transparent'
-          cssParts.push(sidebarInfo.selector + ' { background-color: ' + bottom + ' !important; background-image: linear-gradient(rgba(' + r + ',' + g + ',' + b + ',' + a + '), rgba(' + r + ',' + g + ',' + b + ',' + a + ')) !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; }')
-        }
-        if ((areas.sidebar.mode === 'transparent' || (areas.sidebar.mode === 'image' && !areas.sidebar.image)) && bottomColor && sidebarInfo && sidebarInfo.selector) {
-          cssParts.push(sidebarInfo.selector + ' { background-color: ' + bottomColor + ' !important; }')
-        }
+        // 展开态（默认）规则
+        cssParts.push.apply(cssParts, mk(areas.sidebar, false))
+        // 收起态规则（若配置了收起模式；默认 none → 淡出）
+        cssParts.push.apply(cssParts, mk(areas.sidebar.collapsed || { mode: 'none', opacity: 0 }, true))
         return cssParts.join(' ')
       }
       function buildBrandCss() {
@@ -268,11 +302,26 @@
         return cssParts.join(' ')
       }
       function buildLiftCss() {
-        // 侧边栏图片模式下顶部 UI 提升（v20 铁律：只提升具体 UI 元素本身；须渲染在 ns 之后覆盖其 z-index:0）
+        // 侧边栏图片模式下内容提升（v20 铁律：任何会包住官方设置面板的祖先都不得建层叠上下文）。
+        // v1.0.4 修正（两次迭代）：
+        //  · 第一版：regionArea/footArea 加 z-index:1（建 mini 上下文）→ **盖住设置面板**（面板 DOM 在侧边栏内，
+        //    settingsArea 是兄弟，z-index:1 > auto 把面板压住，用户反馈"上方那一栏覆盖设置界面上层"）。
+        //  · 正确方案：用 `position: relative`（**不加 z-index**）——relative + z-index:auto **不建层叠上下文**
+        //    （面板不受影响），且内容 DOM 顺序在 ::before（伪元素，渲染为第一个子）之后 → 自然绘制在图片层之上。
+        //  · logoRow/新会话保持 z-index:1（v20 已验证安全：内部无 fixed 面板）。
+        //  · settingsArea 也加 position:relative（让设置按钮可见于图片层之上，且不关面板——relative 不建上下文）。
+        // 收起态图片（areas.sidebar.collapsed mode image）同样需要提升。
         const cssParts = []
-        if (areas.sidebar.mode === 'image' && areas.sidebar.image && sidebarInfo && sidebarInfo.selector) {
+        const hasExpandImg = areas.sidebar.mode === 'image' && areas.sidebar.image && sidebarInfo && sidebarInfo.selector
+        const sc = areas.sidebar.collapsed
+        const hasCollapsedImg = sc && sc.mode === 'image' && sc.image && sidebarInfo && sidebarInfo.selector
+        if (hasExpandImg || hasCollapsedImg) {
           cssParts.push(sidebarInfo.selector + ' [class*="_logoRow"] { position: relative !important; z-index: 1 !important; }')
           cssParts.push('[class*="_newSession"]:not([class*="_newSessionLabel"]) { position: relative !important; z-index: 1 !important; }')
+          // 内容区提升（不建上下文）：relative 无 z-index → DOM 顺序盖住 ::before，且不影响设置面板
+          cssParts.push(sidebarInfo.selector + ' [class*="_regionArea"] { position: relative !important; }')
+          cssParts.push(sidebarInfo.selector + ' [class*="_footArea"] { position: relative !important; }')
+          cssParts.push(sidebarInfo.selector + ' [class*="_settingsArea"] { position: relative !important; }')
         }
         return cssParts.join(' ')
       }
@@ -431,11 +480,20 @@
       function buildThemeTokens() {
         const tokens = {}
         const app = areas.app, sb = areas.sidebar
-        if (app.mode === 'color' || app.mode === 'image') {
+        // v1.0.4：主界面 bg-base 透明化按当前折叠态判定（收起态 none → 不含该 token = 官方默认；
+        // ⚠️ 勿设 null——官方 validateOverrides 拒绝 null（必须 {light,dark} 字符串对），同名 source
+        // 整层替换，新层不含 bg-base 即恢复官方）
+        const collapsedNow = sidebarInfo && sidebarInfo.collapsed
+        const appArea = collapsedNow ? (areas.app.collapsedSidebar || {}) : app
+        if (appArea.mode === 'color' || appArea.mode === 'image') {
           tokens['--dsw-alias-bg-base'] = { light: 'transparent', dark: 'transparent' }
-          if (app.includeSidebar !== false) tokens['--dsw-specific-sidebar-fill'] = { light: 'transparent', dark: 'transparent' }
+          if (appArea.includeSidebar !== false) tokens['--dsw-specific-sidebar-fill'] = { light: 'transparent', dark: 'transparent' }
         }
-        if (sb.mode === 'transparent' || sb.mode === 'image' || sb.mode === 'color') tokens['--dsw-specific-sidebar-fill'] = { light: 'transparent', dark: 'transparent' }
+        // v1.0.4：侧边栏 fill 透明化按当前折叠态判定——收起态用 areas.sidebar.collapsed 配置
+        //   （有背景才透明化 fill，否则保留官方白 = 官方原样，符合"收起后默认官方原样"语义）
+        const sbCollapsed = sidebarInfo && sidebarInfo.collapsed
+        const sbArea = sbCollapsed ? (areas.sidebar.collapsed || {}) : sb
+        if (sbArea.mode === 'transparent' || sbArea.mode === 'image' || sbArea.mode === 'color') tokens['--dsw-specific-sidebar-fill'] = { light: 'transparent', dark: 'transparent' }
         for (const it of COLOR_ITEMS) {
           const v = colors[it.key]
           if (!v) continue
@@ -538,7 +596,25 @@
           if (!sidebarInfo) refresh()
           // 网页变化（窗口缩放/布局变动）时重新检测侧边栏比例，保证选区比例始终跟手
           window.addEventListener('resize', refresh)
-          return () => window.removeEventListener('resize', refresh)
+          // v1.0.4 折叠态监听：官方折叠/展开会增删 hHd-Xa_collapsed class（F12 实测稳定后缀）。
+          // MutationObserver 监听 body 子树 class 变化 → 折叠切换时重新检测（collapsed + 宽度），
+          // setSidebarInfo 值比较保证零冗余重渲染。零定时器（事件驱动）
+          let collapseObserver = null
+          try {
+            let lastCollapsed = !!(document.querySelector('[class*="_collapsed"]'))
+            collapseObserver = new MutationObserver(() => {
+              const nowCollapsed = !!(document.querySelector('[class*="_collapsed"]'))
+              if (nowCollapsed !== lastCollapsed) {
+                lastCollapsed = nowCollapsed
+                refresh()
+              }
+            })
+            collapseObserver.observe(document.body, { attributes: true, attributeFilter: ['class'], subtree: true, childList: true })
+          } catch (e) { /* 忽略（observer 不可用时只在 resize 时重检） */ }
+          return () => {
+            window.removeEventListener('resize', refresh)
+            if (collapseObserver) { try { collapseObserver.disconnect() } catch (e) { /* 忽略 */ } }
+          }
         }, [])
 
         // 输入区固定高度：卡片实测宽高比缓存。
@@ -659,8 +735,11 @@
         React.useEffect(() => {
           const cleanup = () => document.querySelectorAll('[data-thmcz-details-reset]').forEach((el) => { try { el.remove() } catch (e) { /* 忽略 */ } })
           if (!detailsDragEnabled) { cleanup(); return undefined }
+          // v1.0.4：侧边栏折叠态不注入复位按钮（收起后 trigger 变窄，两文字挤在一起——用户要求收起后不显示）
+          const isCollapsed = () => !!document.querySelector('[class*="_collapsed"]')
           let btn = null
           const ensure = () => {
+            if (isCollapsed()) { if (btn) { try { btn.remove() } catch (e) { /* 忽略 */ } btn = null } return }
             if (btn) return
             const t = document.querySelector('[class*="VOzbGW_trigger"]')
             if (!t) return
@@ -676,8 +755,8 @@
           ensure()
           let obs = null
           try {
-            obs = new MutationObserver(ensure)
-            obs.observe(document.body, { childList: true, subtree: true })
+            obs = new MutationObserver(() => { ensure() })
+            obs.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] })
           } catch (e) { /* 忽略 */ }
           window.addEventListener('resize', ensure)
           return () => {
@@ -697,18 +776,21 @@
           if (!theme || typeof theme.overrideTokens !== 'function') return undefined
           const tokens = buildThemeTokens()
           let disposer
-          if (Object.keys(tokens).length) {
-            try { disposer = theme.overrideTokens('theme-customizer', tokens) } catch (e) { /* 忽略 */ }
-          }
+          // v1.0.4：tokens 为空也调用（空对象整层替换 → 清除旧透明覆盖，恢复官方）——
+          // 折叠态 none 需把展开态设置的 bg-base transparent 清掉；旧逻辑空对象直接跳过会残留
+          try { disposer = theme.overrideTokens('theme-customizer', tokens) } catch (e) { /* 忽略 */ }
           return () => { if (typeof disposer === 'function') disposer() }
-        }, [areas.app.mode, areas.app.includeSidebar, areas.app.image, areas.sidebar.mode, areas.sidebar.image, colors, convBgs])
+        }, [areas.app, areas.sidebar, sidebarInfo, colors, convBgs])
 
         // 各模块 CSS 用缓存（依赖只含本模块状态；拖动中 manualCssRefresh 已直更 style，这里保证 React 状态一致）
         // ⚠️ 防御：areas.float/details/cordis 可能 undefined（旧配置整体替换后缺键），依赖数组用兜底访问（v0.9.13 事故修复）
         const flDep = areas.float || {}
         const detDep = areas.details || {}
         const corDep = areas.cordis || {}
-        const imgVars = React.useMemo(() => buildImgVars(), [areas.sidebar.mode, areas.sidebar.image, areas.composer.mode, areas.composer.image, newSession.mode, newSession.image, detDep.mode, detDep.image, flDep.mode, flDep.image, corDep.mode, corDep.image, sidebarInfo])
+        // v1.0.4：imgVars 依赖必须含收起态图片（areas.sidebar.collapsed.image 引用）——只设「收起后」图片时
+        // areas.sidebar.mode/image（展开态）不变，缺依赖 → useMemo 不重算 → --tcz-sidebar-img 变量不生成 → 图片不显示
+        const scImg = areas.sidebar && areas.sidebar.collapsed && areas.sidebar.collapsed.image
+        const imgVars = React.useMemo(() => buildImgVars(), [areas.sidebar.mode, areas.sidebar.image, scImg, areas.composer.mode, areas.composer.image, newSession.mode, newSession.image, detDep.mode, detDep.image, flDep.mode, flDep.image, corDep.mode, corDep.image, sidebarInfo])
         const appCss = React.useMemo(() => buildAppCss(), [areas.app, sidebarInfo, baseBg])
         const composerCss = React.useMemo(() => buildComposerCss(), [areas.composer, composerFixedHeight, composerRows, baseBg])
         const detailsCss = React.useMemo(() => buildDetailsCss(), [areas.details, baseBg, detailsPos])
@@ -716,7 +798,8 @@
         const brandCss = React.useMemo(() => buildBrandCss(), [brand, brandHarness])
         const bordersCss = React.useMemo(() => buildBordersCss(), [borders])
         const newSessionCss = React.useMemo(() => buildNewSessionCss(), [newSession])
-        const liftCss = React.useMemo(() => buildLiftCss(), [areas.sidebar.mode, areas.sidebar.image, sidebarInfo])
+        // v1.0.4：liftCss 依赖同加收起态图片（收起态图片时 logoRow 提升）
+        const liftCss = React.useMemo(() => buildLiftCss(), [areas.sidebar.mode, areas.sidebar.image, scImg, sidebarInfo])
         const cordisCss = React.useMemo(() => buildCordisCss(), [areas.cordis, baseBg])
         const floatCss = React.useMemo(() => buildFloatCss(), [floatVisible, areas.float])
         const convCss = React.useMemo(() => buildConvCss(), [convBgs.scrollbar, convBgs.chatScroll, convBgs.todoCollapsed, convBgs.todoExpanded, convBgs.addBtn, convBgs.cmdMenu, convBgs.addBtnOpacity, convBgs.cmdMenuOpacity, convBgs.toBottom, convBgs.sliderColor, convBgs.sliderOpacity, convBgs.sliderTrackColor, convBgs.sliderTrackOpacity, convBgs.scrollColor, convBgs.scrollOpacity, convBgs.scrollbarOpacity, convBgs.chatScrollOpacity, convBgs.todoCollapsedOpacity, convBgs.todoExpandedOpacity, convBgs.toBottomOpacity, convBgs.bubbleOpacity, convBgs.inlineOpacity, convBgs.codeOpacity])

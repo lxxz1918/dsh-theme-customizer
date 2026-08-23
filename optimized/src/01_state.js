@@ -11,8 +11,10 @@
         // 透明度语义统一：数值大 = 透明（主界面与侧边栏一致）；默认 0 = 不透明（实/清晰）
         // 主界面底色：默认开启白色（bottomEnabled/bottomColor/bottomOpacity，复用 emptyArea 字段，逻辑同侧边栏）
         // 作用是主界面最底层垫色：模式"无"时显示白底；纯色/图片盖在底色之上
-        app: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 },
-        sidebar: { ...emptyArea(), opacity: 0 },
+        // v1.0.4 侧边栏收起态：app.collapsedSidebar = 主界面「侧边栏收起后」独立配置（默认 mode:'none' 官方原样）
+        app: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0, collapsedSidebar: emptyArea() },
+        // v1.0.4 侧边栏收起态：sidebar.collapsed = 侧边栏「收起后」独立配置（默认 mode:'none' 官方原样）
+        sidebar: { ...emptyArea(), opacity: 0, collapsed: emptyArea() },
         // 输入区（composer）：像主界面——默认白底常驻（bottomEnabled:true/color:#fff），背景作用在 [data-composer-seat]
         composer: { ...emptyArea(), opacity: 0, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 },
         // 设置界面（details，v0.9.12）：像主界面——默认白底常驻，背景作用在官方设置面板 [class*="VOzbGW_panel"]

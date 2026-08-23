@@ -385,3 +385,12 @@
         }
         return 16 / 9
       }
+      // v1.0.4 侧边栏收起后子版块裁剪比例：窄栏极窄（宽 ~52-70px / 高 ~视口），与展开侧边栏/视口比例完全不同。
+      // 折叠时用 sidebarInfo 实测窄栏比例；展开时用官方窄栏宽度近似（rail 模式 ~60px）/ 视口高度
+      function getCollapsedRatio() {
+        if (sidebarInfo && sidebarInfo.collapsed && sidebarInfo.width > 0 && sidebarInfo.height > 0) {
+          return sidebarInfo.width / sidebarInfo.height
+        }
+        const vh = typeof window !== 'undefined' ? window.innerHeight : 800
+        return 60 / vh
+      }
