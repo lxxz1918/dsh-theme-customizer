@@ -102,6 +102,9 @@
           }
           nextAreas[a.id] = area
         }
+        // v1.0.4 侧边栏收起态：预设缺 collapsedSidebar/collapsed 字段（或字段异常缺 mode）→ 补默认（防读 undefined.mode 崩溃）
+        if (nextAreas.app && (!nextAreas.app.collapsedSidebar || nextAreas.app.collapsedSidebar.mode === undefined)) nextAreas.app = { ...nextAreas.app, collapsedSidebar: emptyArea() }
+        if (nextAreas.sidebar && (!nextAreas.sidebar.collapsed || nextAreas.sidebar.collapsed.mode === undefined)) nextAreas.sidebar = { ...nextAreas.sidebar, collapsed: emptyArea() }
         areas = nextAreas
         // ── 文字颜色：完整覆盖（null=恢复官方）──
         colors = { main: null, process: null, aux: null, faded: null, accent: null }

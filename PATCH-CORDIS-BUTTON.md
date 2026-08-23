@@ -1,4 +1,4 @@
-# 官方 Cordis 按钮常驻补丁说明（dsh-client-ui-cordis）
+# Cordis 按钮常驻补丁说明（dsh-client-ui-cordis）
 
 > 验证通过（2026-08-19，临时静态测试插件 v3 确认：无插件活动时按钮常驻、开关即时显隐、刷新持久）。
 > **推荐直接用随包脚本一键安装**：`node apply-patch.cjs`（自动备份 / `--check` 查状态 / `--undo` 撤销）。本文档记录补丁内容与手动重打方法。

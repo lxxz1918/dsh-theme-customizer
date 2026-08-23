@@ -49,7 +49,9 @@
                   modes.map((m) => React.createElement('option', { key: m.id, value: m.id }, m.label)))
               : null,
           ),
-          area.id === 'app'
+          // v1.0.4：collapsedSubApp（主界面收起后）也显示区域开关——与 app 同布局
+          // （「主界面」标签行 → 显示区域 → 模式内容，用户定位置）
+          (area.id === 'app' || area.id === 'collapsedSubApp')
             ? React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px', marginBottom: '4px', flexWrap: 'wrap' } },
                 React.createElement('span', { style: { fontSize: '12px', color: 'var(--dsw-alias-label-secondary)', flex: 'none' } }, '显示区域：'),
                 React.createElement('button', { type: 'button', onClick: () => onChange({ ...value, includeSidebar: true }), style: { padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', border: '1px solid ' + (value.includeSidebar === false ? 'var(--dsw-alias-border-l2)' : 'var(--dsw-alias-brand-primary)'), background: value.includeSidebar === false ? 'transparent' : 'var(--dsw-alias-brand-primary)', color: value.includeSidebar === false ? 'var(--dsw-alias-label-primary)' : '#fff', fontSize: '12px' } }, '包含侧边栏'),
@@ -91,8 +93,10 @@
           // ⚠️ v1.0.1（2026-08-22 用户定）：主界面「无」模式不显示底色——无模式下官方原样、不做垫色
           //   （此前「无」模式垫色被官方 _frame/三列不透明背景盖住看不到，且透出到侧边栏导致"侧边栏变红"连锁问题）；
           //   纯色/图片模式的底层垫色保留（appBottom 仍参与 color/image 分支）
-          (area.id !== 'app' || value.mode !== 'none') && (area.id === 'app' || area.id === 'sidebar' || area.id === 'composer' || area.id === 'details' || area.id === 'float' || area.id === 'cordis')
-            ? React.createElement(BottomRow, { value: value, onChange: (next) => onChange({ ...value, ...next }), style: { marginTop: '4px', marginBottom: '4px' }, title: '底色', hideOpacity: area.id === 'app', noSwitch: area.id !== 'sidebar' })
+          // v1.0.4：collapsedSub（侧边栏收起后）支持底色（同 sidebar：可开关 + 透明度）；
+          // collapsedSubApp（主界面收起后）= app 式（无开关、无透明度、仅颜色）
+          (area.id !== 'app' || value.mode !== 'none') && (area.id === 'app' || area.id === 'sidebar' || area.id === 'composer' || area.id === 'details' || area.id === 'float' || area.id === 'cordis' || area.id === 'collapsedSub' || area.id === 'collapsedSubApp')
+            ? React.createElement(BottomRow, { value: value, onChange: (next) => onChange({ ...value, ...next }), style: { marginTop: '4px', marginBottom: '4px' }, title: '底色', hideOpacity: area.id === 'app' || area.id === 'collapsedSubApp', noSwitch: area.id !== 'sidebar' && area.id !== 'collapsedSub' })
             : null,
           children,
         )
@@ -241,7 +245,7 @@
 
       // 「Cordis 按钮常驻」勾选（v0.9.14 起在 Cordis 插件界面区域卡片内，原独立卡片已删）：
       // 自身订阅 store（main 通道），childModules useMemo 闭包不捕获旧值。
-      // v1.0.0 开源：开关旁加小字——此开关依赖官方 dsh-client-ui-cordis 补丁，未打补丁时不生效（用户定"留着，标明要打补丁"）
+      // v1.0.0 开源：开关旁加小字——此开关依赖 dsh-client-ui-cordis 补丁（本插件自带的 apply-patch.cjs 补丁），未打补丁时不生效（用户定"留着，标明要打补丁"）
       function CordisEntryToggle() {
         const { cordisEntry } = useStore(['main'])
         // 开关仅勾选框触发（v0.9.20）
@@ -251,7 +255,7 @@
             React.createElement('span', null, 'Cordis 按钮常驻'),
           ),
           React.createElement('div', { style: { fontSize: '11px', color: 'var(--dsw-alias-label-caption)', marginTop: '4px', marginLeft: '22px' } },
-            '需安装官方 Cordis 按钮补丁才生效（见 PATCH-CORDIS-BUTTON.md）'),
+            '需安装 Cordis 按钮补丁才生效（见 PATCH-CORDIS-BUTTON.md）'),
         )
       }
 
@@ -340,9 +344,25 @@
         )
       }
 
+      // 「侧边栏收起后 / 主界面侧边栏收起后」子版块（v1.0.4）：
+      // 复用 AreaEditor 渲染嵌套配置（areas.sidebar.collapsed / areas.app.collapsedSidebar，默认 mode:'none' 官方原样）。
+      // 简化：收起态无「无/透明」区分（模式列表去 transparent）；用独立 AreaEditor 实例 + 独立 area 描述。
+      // v1.0.4 补充：主界面收起后的「显示区域」开关由 AreaEditor 内部渲染（area.id === 'collapsedSubApp'，
+      // 与 app 同布局：标签行 → 显示区域 → 模式内容）；appLike=true 底色 = 主界面式（无开关、无透明度）
+      function CollapsedAreaEditor({ label, value, onChange, ratio, appLike }) {
+        // 收起态子版块的区域描述：mode 列表 = color/image/none（默认官方原样，无 transparent）
+        // id：侧边栏收起后 = collapsedSub（sidebar 式底色）；主界面收起后 = collapsedSubApp（app 式底色，AreaEditor 按 id 区分）
+        const innerId = appLike ? 'collapsedSubApp' : 'collapsedSub'
+        const innerArea = React.useMemo(() => ({ id: innerId, label, supported: true, modes: ['none', 'color', 'image'] }), [innerId, label])
+        return React.createElement('div', { style: { marginTop: '6px', borderTop: '1px dashed var(--dsw-alias-border-l2)', paddingTop: '6px' } },
+          React.createElement('div', { style: { fontSize: '12px', color: 'var(--dsw-alias-label-secondary)', marginBottom: '4px' } }, '侧边栏收起后'),
+          React.createElement(AreaEditor, { area: innerArea, value: value, onChange: onChange, ratio: ratio }),
+        )
+      }
+
       // 「界面」模块外壳（原 ModuleContent background 分支）：透明度说明 → 全部 AREAS 区域卡片（主界面/侧边栏/对话区/输入区/设置界面/浮窗面板/Cordis 插件界面）
       function BackgroundModule() {
-        const { areas, sidebarInfo, cordisEntry, showOpacityHint, convBgs } = useStore()
+        const { areas, sidebarInfo, showOpacityHint } = useStore()
         // 性能优化 2026-08-21：AreaEditor 已 memo 化 → onChange/children 必须稳定引用，
         // 否则父级每次重渲染都新建闭包/元素，memo 浅比较失效（所有区域跟着全量重渲染）
         const changeArea = React.useMemo(() => {
@@ -350,13 +370,23 @@
           for (const a of AREAS) m[a.id] = (v) => setArea(a.id, v)
           return m
         }, [])
+        // v1.0.4 收起态子版块 onChange（写回嵌套字段，触发 areas 引用变化 → AreaCss 重算）：
+        // 稳定引用（useMemo），避免父级重渲染破坏 AreaEditor memo
+        const changeCollapsed = React.useMemo(() => ({
+          sidebar: (v) => setArea('sidebar', { ...areas.sidebar, collapsed: v }),
+          app: (v) => setArea('app', { ...areas.app, collapsedSidebar: v }),
+        }), [areas.sidebar, areas.app])
         const childModules = React.useMemo(() => ({
           // 「新会话」是侧边栏区块的一部分；「统计条/命令」是输入区区块的一部分（渲染在对应卡片内部末尾）；
           // 「对话区背景」是对话区区块的一部分（渲染在对话区卡片内部末尾）
           // 输入区卡片内部结构（v0.9.11 用户定）：底色（AreaEditor 内）→ 输入框高度（ComposerHeightRow，板块直属）→ 统计条/命令（ComposerEditor 子版块）
           // 浮窗面板卡片（v0.9.13）：背景调整（AreaEditor）+ 显示透明度说明勾选（children）
           // 各子版块自身订阅 store → store 变化时自行重渲染，不受父级跳过影响
+          // v1.0.4：主界面/侧边栏卡片加「收起后」子版块（CollapsedAreaEditor 内部用独立 AreaEditor，自有 state）；
+          // 侧边栏卡片的「侧边栏收起后」在最上方（用户定：在标志 BrandEditor 上面）
           sidebar: React.createElement(React.Fragment, null,
+            // v1.0.4 收起后子版块：ratio 用窄栏实测比例（getCollapsedRatio，折叠时实测 / 展开时 ~60px 近似）
+            React.createElement(CollapsedAreaEditor, { label: '侧边栏', value: (areas.sidebar && areas.sidebar.collapsed) || { mode: 'none', opacity: 0 }, onChange: changeCollapsed.sidebar, ratio: getCollapsedRatio() }),
             React.createElement(BrandEditor, null),
             React.createElement(NewSessionEditor, null),
           ),
@@ -371,7 +401,7 @@
           ),
           cordis: React.createElement(CordisEntryToggle, null),
           details: React.createElement(DetailsResetPos, null),
-        }), [])
+        }), [areas.sidebar, areas.app, changeCollapsed, sidebarInfo])
         return React.createElement('div', null,
           showOpacityHint
             ? React.createElement('div', { style: { fontSize: '12px', color: 'var(--dsw-alias-label-secondary)', marginBottom: '8px', whiteSpace: 'pre-line' } },
@@ -382,7 +412,27 @@
             // ⚠️ 防御：旧配置整体替换后新区域（float/details/cordis）可能缺失 → emptyArea 兜底（v0.9.13 事故修复）
             area: a, value: areas[a.id] && typeof areas[a.id] === 'object' ? areas[a.id] : emptyArea(), onChange: changeArea[a.id],
             ratio: getCropRatio(a),
-            children: childModules[a.id] || null,
+            children: a.id === 'app'
+              ? React.createElement(React.Fragment, null,
+                  React.createElement(CollapsedAreaEditor, {
+                    label: '主界面', appLike: true,
+                    value: (areas.app && areas.app.collapsedSidebar) || { mode: 'none', opacity: 0 },
+                    onChange: changeCollapsed.app,
+                    // 收起后主界面选区比例：不包含侧边栏时 = (视口宽-窄栏宽)/高；包含时 = 整屏
+                    ratio: (() => {
+                      const vw = typeof window !== 'undefined' ? window.innerWidth : 1280
+                      const vh = typeof window !== 'undefined' ? window.innerHeight : 800
+                      const cs = (areas.app && areas.app.collapsedSidebar) || {}
+                      if (cs.includeSidebar === false) {
+                        const sbw = sidebarInfo && sidebarInfo.width < 120 ? sidebarInfo.width : 60
+                        return Math.max(0.1, (vw - sbw) / vh)
+                      }
+                      return vw / vh
+                    })(),
+                  }),
+                  childModules[a.id] || null,
+                )
+              : (childModules[a.id] || null),
           })),
         )
       }

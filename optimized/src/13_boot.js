@@ -38,9 +38,9 @@
       // ✅ 最终方案：侧边栏复位按钮改用**原生 DOM 注入**（07 AreaCss useEffect：VOzbGW_trigger 右半注入），
       // 不再注册任何 sidebar 槽位。
 
-      // ── Cordis 常驻：官方按钮已由官方包补丁支持常驻（window.__TCZ_HIDE_OFFICIAL_CORDIS 控制开关）──
+      // ── Cordis 常驻：官方按钮已由 dsh-client-ui-cordis 补丁（apply-patch.cjs）支持常驻（window.__TCZ_HIDE_OFFICIAL_CORDIS 控制开关）──
       // 开关状态同步到 window 变量（官方组件渲染时读取）；false=常驻，true=恢复官方逻辑
-      // 官方包补丁已监听 'tcz:cordis-visibility' 事件 → 切换后立即重渲染（无需刷新页面）
+      // 补丁已监听 'tcz:cordis-visibility' 事件 → 切换后立即重渲染（无需刷新页面）
       function applyCordisEntryFlag() {
         try { window.__TCZ_HIDE_OFFICIAL_CORDIS = !cordisEntry } catch (e) { /* 忽略 */ }
         try { window.dispatchEvent(new Event('tcz:cordis-visibility')) } catch (e) { /* 忽略 */ }

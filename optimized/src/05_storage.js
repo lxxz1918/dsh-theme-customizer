@@ -69,6 +69,14 @@
           } else if (areas.cordis.bottomColor == null) {
             areas.cordis = { ...areas.cordis, bottomEnabled: true, bottomColor: '#ffffff', bottomOpacity: 0 }
           }
+          // v1.0.4 侧边栏收起态：app.collapsedSidebar / sidebar.collapsed 嵌套配置（默认 mode:'none' 官方原样）。
+          // 旧配置无此键 → 无条件补 emptyArea（防 buildSidebarCss/buildAppCss 读 undefined.mode 崩溃）
+          if (areas.app && typeof areas.app === 'object' && (areas.app.collapsedSidebar === undefined || areas.app.collapsedSidebar.mode === undefined)) {
+            areas.app = { ...areas.app, collapsedSidebar: emptyArea() }
+          }
+          if (areas.sidebar && typeof areas.sidebar === 'object' && (areas.sidebar.collapsed === undefined || areas.sidebar.collapsed.mode === undefined)) {
+            areas.sidebar = { ...areas.sidebar, collapsed: emptyArea() }
+          }
           if (c.colors && typeof c.colors === 'object') colors = { main: null, process: null, aux: null, faded: null, accent: null, ...c.colors }
           if (c.newSession && typeof c.newSession === 'object') {
             // 兼容旧数据：无 bottomEnabled 字段时，旧 bottomColor 有值 = 底色已开启；
