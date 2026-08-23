@@ -73,8 +73,8 @@
 1. 查"功能速查"表定位片段 → 打开
 2. 读片段文件头自述卡（职责 / 定义 / 测试点）
 3. 改代码（片段内**禁止** import/require；零定时器约定不变）
-4. `node theme-customizer\optimized\build.cjs`（语法校验 + 刷新 line_map/symbols）
-5. **进静态（纯静态工作流，2026-08-20 起）**：`node theme-customizer\rebuild.cjs`（一键：build + build_static + node --check）→ 手动 bump version + 更新 README → 用户重启 dsh web 生效
+4. `node optimized\build.cjs`（语法校验 + 刷新 line_map/symbols）
+5. **进静态（纯静态工作流，2026-08-20 起）**：`node build_static.cjs optimized\dist\p3_2_client.js lib\client.js`（生成发布用 bundle）→ 手动 bump version + 更新 README → 重启 dsh web 生效
 6. 按自述卡"测试点"验证；**不再用动态版**（弃用）
 
 ## 产物说明（dist/，自动生成勿手改）
@@ -83,6 +83,6 @@
 |---|---|
 | `dist/client.js` | 动态 code.client（函数体，逐字复制） |
 | `dist/host.js` | 动态 code.host |
-| `dist/p3_2_client.js` | module.exports 格式（静态 `plugin/build_static.cjs` 的输入） |
+| `dist/p3_2_client.js` | module.exports 格式（静态 `build_static.cjs` 的输入） |
 | `dist/line_map.txt` | 片段 ↔ client.js 行号映射 |
 | `dist/symbols.md` | 片段符号表 |

@@ -1,6 +1,8 @@
-// build_static.cjs —— 从当阶段最新成果文件生成静态插件 lib/client.js
+// build_static.cjs —— 从 optimized/dist/p3_2_client.js 生成静态插件 lib/client.js
 // 用法: node build_static.cjs <源文件> <目标文件>
-// 源文件约定: module.exports = { clientBodyPXxx, hostBodyPXxx }
+// 源文件约定（optimized/dist/p3_2_client.js，由 build.cjs 生成）:
+//   module.exports = { clientBodyP31, hostBodyP31 }
+// 常规构建链：node optimized\build.cjs && node build_static.cjs optimized\dist\p3_2_client.js lib\client.js
 const fs = require('fs')
 const path = require('path')
 
@@ -18,8 +20,8 @@ if (!fnName) {
   process.exit(1)
 }
 
-const body = mod[fnName].toString() // "function clientBodyP218() { return { ... }, }"
-const prefix = body.slice(0, body.indexOf('{')) + '{' // "function clientBodyP218() {"
+const body = mod[fnName].toString() // "function clientBodyP31() { return { ... }, }"
+const prefix = body.slice(0, body.indexOf('{')) + '{' // "function clientBodyP31() {"
 const innerRaw = body.slice(prefix.length).trim()      // "return { ... },\n}"
 const inner = innerRaw.slice(0, innerRaw.lastIndexOf('}')) // "return { ... },"
 const obj = inner.replace(/^return\s*/, '').replace(/,\s*$/, '').trim() // "{ ... }"

@@ -8,9 +8,9 @@
 //   - 片段内禁止 import/require（动态 code.client 是纯函数体）；零定时器约定不变
 //
 // 产物（dist/，自动生成勿手改）:
-//   dist/client.js       动态 code.client（逐字复制传给 cordis_define）
+//   dist/client.js       动态 code.client（cordis_define 用；⚠️ 动态插件轨已弃用 2026-08-20，产物仅作备份/参考）
 //   dist/host.js         动态 code.host
-//   dist/p3_2_client.js  module.exports 格式（静态 plugin/build_static.cjs 的输入）
+//   dist/p3_2_client.js  module.exports 格式（静态 build_static.cjs 的输入，日常构建用这个）
 //   dist/line_map.txt    片段 → client.js 行号映射（自动生成，喂给 INDEX.md）
 //   dist/symbols.md      片段符号表（自动生成，喂给 INDEX.md）
 const fs = require('fs')
@@ -55,7 +55,7 @@ for (const f of clientFrags) {
 }
 const applyBody = outLines.join('\n')
 
-// ── 2. 动态 code.client（与 dynamic/client.js 同格式：return { apply(ctx) {...} }）──
+// ── 2. 动态 code.client（return { apply(ctx) {...} }，供 cordis_define 逐字复制；动态插件轨已弃用，产物仅作备份）──
 const client = '  return {\n    apply(ctx) {\n' + applyBody + '\n    },\n  }'
 
 // ── 3. host 半部分 ──
