@@ -1,5 +1,6 @@
 # dsh-theme-customizer
 
+[![Awesome DSH Plugin](https://awesome-dsh-plugin.com/badge.svg)](https://awesome-dsh-plugin.com)
 [![npm version](https://img.shields.io/npm/v/dsh-theme-customizer?style=flat-square&v=1)](https://www.npmjs.com/package/dsh-theme-customizer)
 [![license](https://img.shields.io/github/license/lxxz1918/dsh-theme-customizer?style=flat-square&v=1)](LICENSE)
 [![topic: dsh-plugin](https://img.shields.io/badge/topic-dsh--plugin-0969da?style=flat-square&v=1)](https://github.com/topics/dsh-plugin)
